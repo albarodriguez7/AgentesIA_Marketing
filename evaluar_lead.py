@@ -8,29 +8,69 @@ from langchain_core.messages import SystemMessage, HumanMessage
 load_dotenv()
 
 
-class EvaluacionLead(BaseModel):
-    puntuacion: int = Field(description="Puntuación del lead de 0 a 10 según el perfil de cliente ideal")
-    encaja_con_icp: bool = Field(description="True si el lead encaja con el perfil de cliente ideal")
-    motivos: list[str] = Field(description="Entre 2 y 4 motivos breves que justifican la puntuación")
-    siguiente_accion: Literal["contactar", "nutrir", "descartar"] = Field(
-        description="contactar si es un buen lead ya, nutrir si encaja pero aún no está listo, descartar si no encaja"
+class DatosLead(BaseModel):
+    sector: Literal["salud", "estetica", "hosteleria", "educacion", "otro"] = Field(
+        description="Sector del negocio"
+    )
+    numero_sedes: int | None = Field(
+        description="Número de sedes si se menciona; None si el texto no lo dice"
+    )
+    en_madrid: bool = Field(description="True si el negocio está en Madrid")
+    intencion: Literal["alta", "media", "baja"] = Field(
+        description=(
+            "alta: pide auditoría, presupuesto o reunión; "
+            "media: se interesa por un servicio concreto o descarga contenido específico; "
+            "baja: acciones genéricas como suscribirse a la newsletter"
+        )
     )
 
-# ICP: el perfil de cliente ideal
-ICP = """Agencia de marketing digital especializada en captación para negocios locales de Madrid.
-Cliente ideal: negocios de servicios (salud, estética, hostelería, educación) con 2 o más sedes,
-que ya muestran interés por el marketing digital."""
+
+def puntuar(datos: DatosLead) -> int:
+    puntos = 0
+    if datos.sector != "otro":
+        puntos += 3
+    if datos.en_madrid:
+        puntos += 2
+    if datos.numero_sedes is not None and datos.numero_sedes >= 2:
+        puntos += 2
+    puntos += {"alta": 3, "media": 2, "baja": 0}[datos.intencion]
+    return puntos
+
+
+def decidir(puntos: int) -> str:
+    if puntos >= 8:
+        return "contactar"
+    if puntos >= 5:
+        return "nutrir"
+    return "descartar"
+
 
 modelo = init_chat_model("openai:gpt-4.1-mini", temperature=0)
-evaluador = modelo.with_structured_output(EvaluacionLead)
+extractor = modelo.with_structured_output(DatosLead)
 
-mensajes = [
-    SystemMessage(f"Eres un analista de marketing que cualifica leads. Evalúa cada lead según este perfil de cliente ideal:\n{ICP}"),
-    HumanMessage("Lead: clínica dental en Madrid con 3 sedes que ha descargado nuestra guía de SEO local."),
+leads = [
+    "Clínica dental en Madrid con 3 sedes que ha descargado nuestra guía de SEO local.",
+    "Empresa de software de Barcelona con 200 empleados que pidió información sobre publicidad en LinkedIn.",
+    "Academia de idiomas en Madrid con 1 sede que se suscribió a la newsletter.",
+    "Cadena de 4 centros de estética en Madrid que solicitó una auditoría gratuita.",
 ]
 
-resultado = evaluador.invoke(mensajes)
 
-print(resultado)
-print("Puntuación:", resultado.puntuacion)
-print("Acción:", resultado.siguiente_accion)
+def crear_mensajes(lead: str) -> list:
+    return [
+        SystemMessage(
+            "Extraes datos de leads para una agencia de marketing. "
+            "No valores si el lead es bueno o malo: solo extrae la información que aparece en el texto."
+        ),
+        HumanMessage(f"Lead: {lead}"),
+    ]
+
+
+resultados = extractor.batch([crear_mensajes(lead) for lead in leads])  # para cada lead de la lista, crea su conversación, y guárdalas todas en una lista nueva
+
+for lead, datos in zip(leads, resultados):
+    puntos = puntuar(datos)
+    accion = decidir(puntos)
+    print(f"\n{lead}")
+    print(f"  Datos: {datos}")
+    print(f"  Puntuación: {puntos} → {accion}")
