@@ -11,3 +11,5 @@ modelo = init_chat_model("openai:gpt-4.1-mini", temperature=0)
 respuesta = modelo.invoke("Explica en una frase qué es un lead en marketing.")
 
 print(respuesta.content)
+
+print(respuesta.usage_metadata)
