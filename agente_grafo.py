@@ -33,7 +33,13 @@ Cómo trabajar:
 - Si falta algún dato, visita otras páginas eligiéndolas de la lista de enlaces que devuelve leer_web.
   Nunca inventes direcciones.
 - No visites más de 4 páginas en total.
-- Cuando tengas suficiente información, responde con un resumen breve de lo que has averiguado."""
+- Cuando termines, responde exactamente con este formato:
+
+SECTOR: a qué se dedica la empresa.
+CIUDADES CON SEDES: ciudades donde la web dice que tiene sedes. Si hay una página que lista los centros, visítala para comprobarlo.
+NÚMERO DE SEDES SEGÚN LA WEB: copia literalmente la frase de la web que indique cuántas sedes tiene. Si no aparece ninguna, escribe "no aparece".
+DIRECCIONES ENCONTRADAS: copia literalmente cada dirección física distinta que aparezca en la web, una por línea. Si no has encontrado ninguna, escribe "ninguna".
+DATOS NO CONFIRMADOS: lo que no hayas podido comprobar en la web."""
 
 MAX_VISITAS = 4
 
@@ -73,7 +79,15 @@ def decidir_siguiente(estado: EstadoLead) -> str:
 INSTRUCCIONES_EXTRAER = """Extraes datos de leads para una agencia de marketing.
 No valores si el lead es bueno o malo: solo extrae la información.
 Si un dato no aparece claramente en la investigación, déjalo vacío.
-La intención se decide por lo que el lead ha hecho con nosotros, no por su web."""
+La intención se decide por lo que el lead ha hecho con nosotros, no por su web.
+
+Para el número de sedes, usa las pruebas en este orden:
+1. Si NÚMERO DE SEDES SEGÚN LA WEB tiene una frase, usa el número que dice.
+2. Si no, cuenta las direcciones distintas de DIRECCIONES ENCONTRADAS.
+3. Si tampoco hay direcciones, deja el número de sedes vacío.
+No lo deduzcas de ningún otro apartado.
+
+Para saber si está en Madrid: es verdadero si Madrid aparece en CIUDADES CON SEDES."""
 
 
 extractor = modelo.with_structured_output(DatosLead)
@@ -116,7 +130,7 @@ agente = constructor.compile()
 
 if __name__ == "__main__":
     resultado = agente.invoke({
-        "messages": [HumanMessage("Web: https://clinicaceodent.es/. Ha descargado nuestra guía de SEO local.")],
+        "messages": [HumanMessage("Web: https://www.fitnesspark.es/. Ha descargado nuestra guía de SEO local.")],
         "datos": None,
         "puntos": None,
         "accion": None,
@@ -126,5 +140,6 @@ if __name__ == "__main__":
         for peticion in getattr(mensaje, "tool_calls", []):    # getattr significa "dame tool_calls si existe y, si no, una lista vacía"
             print("Visita:", peticion["args"]["url"])
 
+    print("\nResumen:\n", resultado["messages"][-1].content)
     print("\nDatos:", resultado["datos"])
     print(f"Puntuación: {resultado['puntos']} → {resultado['accion']}")

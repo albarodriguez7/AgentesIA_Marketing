@@ -13,8 +13,9 @@ class DatosLead(BaseModel):
         description="Sector del negocio"
     )
     numero_sedes: int | None = Field(
-        description="Número de sedes si se menciona; None si el texto no lo dice"
+        description="Número de sedes o direcciones físicas distintas confirmadas; None si no está confirmado"
     )
+    
     en_madrid: bool = Field(description="True si el negocio está en Madrid")
     intencion: Literal["alta", "media", "baja"] = Field(
         description=(
