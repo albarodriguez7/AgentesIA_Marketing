@@ -9,7 +9,7 @@ from evaluar_lead import DatosLead, puntuar, decidir
 from herramientas import leer_web
 
 from langgraph.graph import StateGraph, START, END
-from langgraph.prebuilt import ToolNode, tools_condition
+from langgraph.prebuilt import ToolNode
 
 load_dotenv()
 
@@ -35,15 +35,38 @@ Cómo trabajar:
 - No visites más de 4 páginas en total.
 - Cuando tengas suficiente información, responde con un resumen breve de lo que has averiguado."""
 
+MAX_VISITAS = 4
+
 modelo = init_chat_model("openai:gpt-4.1-mini", temperature=0)
-modelo_con_herramientas = modelo.bind_tools([leer_web])   # esto le presenta la herramienta a la IA, pero no la ejecuta, solo se la enseña
+modelo_con_herramientas = modelo.bind_tools([leer_web], parallel_tool_calls=False)
+modelo_sin_herramientas = modelo.bind_tools([leer_web], tool_choice="none")  # tool_choice="none"  = no uses ninguna tool
+
+
+
+def contar_visitas(mensajes: list) -> int:
+    return sum(len(getattr(mensaje, "tool_calls", [])) for mensaje in mensajes)   
+
+# []: lo que quieres recibir si no existe. Es el "plan B"  /  len([]) = 0 porque no queremos que cuente
+
 
 
 def investigar(estado: EstadoLead) -> dict:
     mensajes = [SystemMessage(INSTRUCCIONES_INVESTIGAR)] + estado["messages"]
-    respuesta = modelo_con_herramientas.invoke(mensajes)
-    return {"messages": [respuesta]}    # como "messages" tiene "add_messages", la respuesta se añadirá al final de la conversación
 
+    if contar_visitas(estado["messages"]) >= MAX_VISITAS:
+        mensajes.append(SystemMessage("Has alcanzado el límite de páginas. No visites más: escribe ya tu resumen."))
+        respuesta = modelo_sin_herramientas.invoke(mensajes)
+    else:
+        respuesta = modelo_con_herramientas.invoke(mensajes)
+    return {"messages": [respuesta]}    
+
+
+
+def decidir_siguiente(estado: EstadoLead) -> str:
+    ultimo_mensaje = estado["messages"][-1]
+    if ultimo_mensaje.tool_calls:
+        return "herramientas"  # Si en el ultimo mensaje pide usas una herramienta, continua con herramientas. Sino termina y extrae
+    return "extraer"
 
 
 # Extraer
@@ -52,8 +75,8 @@ No valores si el lead es bueno o malo: solo extrae la información.
 Si un dato no aparece claramente en la investigación, déjalo vacío.
 La intención se decide por lo que el lead ha hecho con nosotros, no por su web."""
 
-extractor = modelo.with_structured_output(DatosLead)
 
+extractor = modelo.with_structured_output(DatosLead)
 
 def extraer(estado: EstadoLead) -> dict:
     lead_original = estado["messages"][0].content  # Lee el primer mensaje
@@ -81,21 +104,13 @@ constructor.add_node("extraer", extraer)
 constructor.add_node("puntuar", calcular_puntuacion)
 
 constructor.add_edge(START, "investigar") # Le digo que empieze (START) con investigar
-constructor.add_conditional_edges("investigar", tools_condition, {"tools": "herramientas", END: "extraer"})   # Si "tools_condition" es Si, devuelve "tools" sino devuelve extraer
+#constructor.add_conditional_edges("investigar", tools_condition, {"tools": "herramientas", END: "extraer"})   # Si "tools_condition" es Si, devuelve "tools" sino devuelve extraer
+constructor.add_conditional_edges("investigar", decidir_siguiente, ["herramientas", "extraer"])
 constructor.add_edge("herramientas", "investigar")   # Crea el bucle: después de ejecutar la herramienta, siempre se vuelve a investigar, para que la IA lea el resultado y decida qué hacer
 constructor.add_edge("extraer", "puntuar")   # Después de extraer siempre se puntúa
 constructor.add_edge("puntuar", END)   # y después de puntuar siempre se termina
 
 agente = constructor.compile()
-
-
-
-# START → investigar ⇄ herramientas
-#             ↓ (cuando ya no pide herramientas)
-#          extraer → puntuar → END  
-         
-
-
 
 
 
