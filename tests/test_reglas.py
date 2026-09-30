@@ -45,3 +45,21 @@ def test_una_sede_no_suma_puntos():
 def test_dos_sedes_ya_suman_puntos():
     datos = DatosLead(sector="salud", numero_sedes=2, en_madrid=True, intencion="media")
     assert puntuar(datos) == 9
+
+
+
+# Pruebo Test-Driven Development (TDD)
+
+def test_diez_sedes_todavia_suman_puntos():
+    datos = DatosLead(sector="salud", numero_sedes=10, en_madrid=True, intencion="media")
+    assert puntuar(datos) == 9
+
+
+def test_once_sedes_ya_no_suman_puntos():
+    datos = DatosLead(sector="salud", numero_sedes=11, en_madrid=True, intencion="media")
+    assert puntuar(datos) == 7
+
+
+def test_cadena_muy_grande_no_suma_puntos():
+    datos = DatosLead(sector="salud", numero_sedes=400, en_madrid=True, intencion="media")
+    assert puntuar(datos) == 7

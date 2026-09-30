@@ -7,6 +7,9 @@ from langchain_core.messages import SystemMessage, HumanMessage
 
 load_dotenv()
 
+MIN_SEDES = 2
+MAX_SEDES = 10
+
 
 class DatosLead(BaseModel):
     sector: Literal["salud", "estetica", "hosteleria", "educacion", "otro"] = Field(
@@ -15,7 +18,7 @@ class DatosLead(BaseModel):
     numero_sedes: int | None = Field(
         description="Número de sedes o direcciones físicas distintas confirmadas; None si no está confirmado"
     )
-    
+
     en_madrid: bool = Field(description="True si el negocio está en Madrid")
     intencion: Literal["alta", "media", "baja"] = Field(
         description=(
@@ -32,7 +35,7 @@ def puntuar(datos: DatosLead) -> int:
         puntos += 3
     if datos.en_madrid:
         puntos += 2
-    if datos.numero_sedes is not None and datos.numero_sedes >= 2:
+    if datos.numero_sedes is not None and MIN_SEDES <= datos.numero_sedes <= MAX_SEDES:
         puntos += 2
     puntos += {"alta": 3, "media": 2, "baja": 0}[datos.intencion]
     return puntos
