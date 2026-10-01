@@ -20,7 +20,7 @@ ejemplos = [
     },
     {
         "inputs": {"lead": "Web: https://www.bcnlanguages.com/. Ha pedido una auditoría gratuita."},
-        "outputs": {"sector": "educacion", "en_madrid": False, "tramo_sedes": "2 a 10", "accion": "contactar"},
+        "outputs": {"sector": "educacion", "en_madrid": False, "tramo_sedes": "2 a 10", "accion": "descartar"},
     },
     {
         "inputs": {"lead": "Web: https://www.pizzavk.com/. Ha descargado nuestra guía de SEO local."},
