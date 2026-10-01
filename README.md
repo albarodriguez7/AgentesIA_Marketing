@@ -1,4 +1,5 @@
 # Agente de cualificación de leads con LangGraph
+![Agente de IA para cualificar leads](docs/preview-agente-leads.png)
 
 🇪🇸 **Español** · 🇬🇧 [English](README.en.md)
 
