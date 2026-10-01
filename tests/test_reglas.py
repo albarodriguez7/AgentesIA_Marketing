@@ -63,3 +63,15 @@ def test_once_sedes_ya_no_suman_puntos():
 def test_cadena_muy_grande_no_suma_puntos():
     datos = DatosLead(sector="salud", numero_sedes=400, en_madrid=True, intencion="media")
     assert puntuar(datos) == 7
+
+
+# Descartar negocios fuera de Madrid: 
+
+def test_lead_fuera_de_madrid_no_suma_ningun_punto():
+    datos = DatosLead(sector="educacion", numero_sedes=5, en_madrid=False, intencion="alta")
+    assert puntuar(datos) == 0
+
+
+def test_lead_fuera_de_madrid_se_descarta():
+    datos = DatosLead(sector="educacion", numero_sedes=5, en_madrid=False, intencion="alta")
+    assert decidir(puntuar(datos)) == "descartar"

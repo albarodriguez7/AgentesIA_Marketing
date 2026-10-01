@@ -28,7 +28,7 @@ ejemplos = [
     },
     {
         "inputs": {"lead": "Web: https://fisioterapiadomiciliomanuel.com/. Se ha suscrito a nuestra newsletter."},
-        "outputs": {"sector": "salud", "en_madrid": False, "tramo_sedes": "desconocido", "accion": "descartar"},
+        "outputs": {"sector": "salud", "en_madrid": True, "tramo_sedes": "1", "accion": "nutrir"},
     },
 ]
 

@@ -28,13 +28,16 @@ class DatosLead(BaseModel):
         )
     )
 
+ 
 
 def puntuar(datos: DatosLead) -> int:
+    if not datos.en_madrid:  # Si no está en Madrid devuelve 0, aquí ya decimos que los negocios de fuera de Madrid no nos interesan.
+        return 0
     puntos = 0
     if datos.sector != "otro":
         puntos += 3
-    if datos.en_madrid:
-        puntos += 2
+    if datos.en_madrid:  # Esta parte ahora se cumple siempre porque hasta aquí solo llegan los que si son de Madrid. Los que no lo son se han ido en el primer if.
+        puntos += 2  
     if datos.numero_sedes is not None and MIN_SEDES <= datos.numero_sedes <= MAX_SEDES:
         puntos += 2
     puntos += {"alta": 3, "media": 2, "baja": 0}[datos.intencion]
