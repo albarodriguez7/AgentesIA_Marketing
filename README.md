@@ -123,15 +123,15 @@ Python 3.13 · LangChain · LangGraph · OpenAI (GPT-4.1 mini) · Pydantic · La
 ## Estructura del proyecto
 
 ```
-├── agente_grafo.py         ← el agente (grafo de LangGraph)
-├── evaluar_lead.py         ← formulario de datos y reglas de negocio
-├── herramientas.py         ← herramienta para leer webs
-├── tests/
-│   └── test_reglas.py      ← tests de las reglas
-├── evaluaciones/
-│   ├── crear_dataset.py    ← crea el dataset en LangSmith
-│   └── evaluar_agente.py   ← lanza la evaluación
-└── ejemplos/               ← scripts de aprendizaje y agente con create_agent (para comparar)
+├── leads/                      ← agente de cualificación de leads
+│   ├── agente_grafo.py         ← el agente (grafo de LangGraph)
+│   ├── evaluar_lead.py         ← formulario de datos y reglas de negocio
+│   └── evaluaciones/           ← dataset y evaluación en LangSmith
+├── auditoria/                  ← agente de auditoría de captación (en desarrollo)
+├── compartido/
+│   └── herramientas.py         ← herramienta para leer webs, común a los agentes
+├── tests/                      ← tests de las reglas
+└── ejemplos/                   ← scripts de aprendizaje y agente con create_agent (para comparar)
 ```
 
 ---
