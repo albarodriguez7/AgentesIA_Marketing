@@ -2,8 +2,8 @@ from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
 from langsmith import Client
 
-from agente_grafo import agente
-from evaluar_lead import MIN_SEDES, MAX_SEDES
+from leads.agente_grafo import agente
+from leads.evaluar_lead import MIN_SEDES, MAX_SEDES
 
 load_dotenv()
 

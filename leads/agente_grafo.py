@@ -3,13 +3,12 @@ from typing import Annotated, TypedDict
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 from langchain_core.messages import AnyMessage, HumanMessage, SystemMessage
-from langgraph.graph.message import add_messages
-
-from evaluar_lead import DatosLead, puntuar, decidir
-from herramientas import leer_web
-
 from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode
+
+from compartido.herramientas import leer_web
+from leads.evaluar_lead import DatosLead, puntuar, decidir
 
 load_dotenv()
 

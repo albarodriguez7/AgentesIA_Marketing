@@ -2,8 +2,8 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
 
-from evaluar_lead import DatosLead, puntuar, decidir
-from herramientas import leer_web
+from leads.evaluar_lead import DatosLead, puntuar, decidir
+from compartido.herramientas import leer_web
 
 load_dotenv()
 

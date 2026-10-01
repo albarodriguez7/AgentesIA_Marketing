@@ -1,5 +1,5 @@
 import pytest
-from evaluar_lead import DatosLead, puntuar, decidir
+from leads.evaluar_lead import DatosLead, puntuar, decidir
 
 # Tienen que empezar siempre por test_ porque sino pytest los ignora
 
