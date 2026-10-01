@@ -71,6 +71,6 @@ if __name__ == "__main__":
         ejecutar_agente,   
         data=NOMBRE_DATASET,
         evaluators=[sector_correcto, madrid_correcto, sedes_correctas, accion_correcta],
-        experiment_prefix="grafo-v1",  # este nombre se lo doy yo
+        experiment_prefix="grafo-v2",  # este nombre se lo doy yo
         max_concurrency=2,    # ejecuta 2 leads a la vez, en paralelo, como hacía batch
     ) 
