@@ -1,6 +1,7 @@
 import pytest
 from leads.evaluar_lead import DatosLead, puntuar, decidir
 
+
 # Tienen que empezar siempre por test_ porque sino pytest los ignora
 
 def test_lead_perfecto_saca_10():
@@ -75,3 +76,5 @@ def test_lead_fuera_de_madrid_no_suma_ningun_punto():
 def test_lead_fuera_de_madrid_se_descarta():
     datos = DatosLead(sector="educacion", numero_sedes=5, en_madrid=False, intencion="alta")
     assert decidir(puntuar(datos)) == "descartar"
+
+

@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 
+
 def descargar_html(url: str) -> BeautifulSoup | None:
     try:
         respuesta = requests.get(url, timeout=10, headers={"User-Agent": "Mozilla/5.0"})
@@ -9,6 +10,10 @@ def descargar_html(url: str) -> BeautifulSoup | None:
     except requests.RequestException:
         return None
     return BeautifulSoup(respuesta.text, "html.parser")
+
+
+def usa_https(url: str) -> bool:
+    return url.startswith("https://")   # Comprobar que empieza por https
 
 
 PATRONES_WHATSAPP = ["wa.me", "wa.link", "whatsapp.com", "whatsapp://"]
@@ -29,6 +34,9 @@ def comprobar_conversion(soup: BeautifulSoup) -> dict:
         "email_clicable": any(d.startswith("mailto:") for d in direcciones),
         "formulario": len(soup.find_all("form")) > 0,
     }
+
+
+
 
 
 if __name__ == "__main__":

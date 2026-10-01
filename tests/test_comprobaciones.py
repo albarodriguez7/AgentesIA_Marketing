@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from auditoria.comprobaciones import comprobar_conversion
+from auditoria.comprobaciones import comprobar_conversion, usa_https
 
 
 def crear_pagina(contenido: str) -> BeautifulSoup:
@@ -35,3 +35,11 @@ def test_detecta_telefono_clicable():
 def test_telefono_solo_escrito_no_cuenta_como_clicable():
     pagina = crear_pagina("<p>Llámanos al 913 82 52 57</p>")
     assert comprobar_conversion(pagina)["telefono_clicable"] is False
+
+
+def test_web_con_https_es_segura():
+    assert usa_https("https://clinicaceodent.es/") is True
+
+
+def test_web_con_http_no_es_segura():
+    assert usa_https("http://clinicaceodent.es/") is False
