@@ -114,7 +114,7 @@ The dataset is designed to cover every case, not just the easy ones:
 
 The only error in the final version was the "DiR Av. Madrid" trap, which the agent once mistook for a location in Madrid.
 
-Each lead takes between 5 and 20 seconds, depending on how many pages the agent needs to visit.
+Each lead takes between 5 and 20 seconds, depending on how many pages the agent needs to visit, and costs about **$0.003** ($0.11 to evaluate all 35 leads with GPT-4.1 mini).
 
 Something I learned by measuring: most of the tokens are **input** tokens, because the whole conversation is resent on every turn of the agent loop. Results also vary between runs of the same agent (the model does not always answer the same way and websites sometimes fail to respond), so I use several runs to report a figure and compare versions.
 

@@ -112,7 +112,7 @@ El dataset está diseñado para cubrir todos los casos y no solo los fáciles:
 
 El único fallo de la versión final fue el caso trampa "DiR Av. Madrid", que el agente confundió una vez con una sede en Madrid.
 
-Cada lead tarda entre 5 y 20 segundos, según cuántas páginas necesite visitar el agente.
+Cada lead tarda entre 5 y 20 segundos, según cuántas páginas necesite visitar el agente, y cuesta unos **0,003 $** (0,11 $ por evaluar los 35 leads con GPT-4.1 mini).
 
 Algo que aprendí midiendo: la mayor parte de los tokens son de **entrada**, porque en cada vuelta del agente se reenvía toda la conversación. Y los resultados varían entre ejecuciones del mismo agente (el modelo no responde siempre igual y las webs a veces no responden), así que para dar una cifra y comparar versiones uso varias ejecuciones.
 
