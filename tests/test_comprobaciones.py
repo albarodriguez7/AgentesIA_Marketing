@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales
+from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales, tiene_opiniones
 
 def crear_pagina(contenido: str) -> BeautifulSoup:
     return BeautifulSoup(f"<html><body>{contenido}</body></html>", "html.parser")
@@ -62,4 +62,30 @@ def test_sin_textos_legales():
 
 def test_texto_legal_fuera_de_un_enlace_no_cuenta():
     pagina = crear_pagina("<p>Consulta nuestro aviso legal</p>")
+    assert tiene_textos_legales(pagina) is False
+
+
+
+def test_detecta_testimonios():
+    pagina = crear_pagina('<a href="/testimonios/">Testimonios</a>')
+    assert tiene_opiniones(pagina) is True
+
+
+def test_detecta_opiniones_en_un_texto_largo():
+    pagina = crear_pagina('<a href="/opiniones">Opiniones de nuestros pacientes</a>')
+    assert tiene_opiniones(pagina) is True
+
+
+def test_detecta_experiencias_como_en_ceodent():
+    pagina = crear_pagina('<a href="/testimonios/">Experiencias</a>')
+    assert tiene_opiniones(pagina) is True
+
+
+def test_sin_opiniones():
+    pagina = crear_pagina('<a href="/">Inicio</a><a href="/contacto">Contacto</a>')
+    assert tiene_opiniones(pagina) is False
+
+
+def test_testimonios_no_cuenta_como_texto_legal():
+    pagina = crear_pagina('<a href="/testimonios/">Testimonios</a>')
     assert tiene_textos_legales(pagina) is False

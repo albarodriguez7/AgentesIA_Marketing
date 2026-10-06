@@ -18,14 +18,23 @@ def usa_https(url: str) -> bool:
 
 
 PALABRAS_LEGALES = ["aviso legal", "privacidad"]
+PALABRAS_OPINIONES = ["opiniones", "testimonios", "reseñas", "valoraciones", "experiencias"]
+
+
+def algun_enlace_contiene(soup: BeautifulSoup, palabras: list) -> bool:
+    for enlace in soup.find_all("a", href=True):
+        texto = enlace.get_text().lower()
+        if any(palabra in texto for palabra in palabras):
+            return True
+    return False
 
 
 def tiene_textos_legales(soup: BeautifulSoup) -> bool:
-    for enlace in soup.find_all("a", href=True):
-        texto = enlace.get_text().lower()
-        if any(palabra in texto for palabra in PALABRAS_LEGALES):
-            return True
-    return False
+    return algun_enlace_contiene(soup, PALABRAS_LEGALES)
+
+
+def tiene_opiniones(soup: BeautifulSoup) -> bool:
+    return algun_enlace_contiene(soup, PALABRAS_OPINIONES)
 
 
 
@@ -58,6 +67,8 @@ if __name__ == "__main__":
         print("No se pudo descargar la web")
     else:
         print(comprobar_conversion(soup))
+        print("¿Textos legales?", tiene_textos_legales(soup))
+        print("¿Opiniones?", tiene_opiniones(soup))
         html = str(soup).lower() 
         # debugging:
         # print("Veces que aparece 'whatsapp' en el HTML:", html.count("whatsapp"))
