@@ -13,13 +13,22 @@ MAX_SEDES = 10
 
 class DatosLead(BaseModel):
     sector: Literal["salud", "estetica", "hosteleria", "educacion", "otro"] = Field(
-        description="Sector del negocio"
+        description=(
+            "Sector del negocio. "
+            "salud: clínicas, dentistas, hospitales, fisioterapia, psicología, y centros de entrenamiento "
+            "que ofrecen fisioterapia o nutrición como parte principal; "
+            "estetica: peluquerías, centros de estética, uñas, depilación; "
+            "hosteleria: restaurantes, bares, cafeterías, hoteles; "
+            "educacion: academias, escuelas, universidades, clases particulares; "
+            "otro: todo lo demás, incluidos gimnasios y entrenamiento personal sin servicios sanitarios, "
+            "software o inmobiliarias"
+        )
     )
     numero_sedes: int | None = Field(
         description="Número de sedes o direcciones físicas distintas confirmadas; None si no está confirmado"
     )
 
-    en_madrid: bool = Field(description="True si el negocio está en Madrid")
+    en_madrid: bool = Field(description="True si el negocio tiene alguna sede en Madrid ciudad o en la Comunidad de Madrid")
     intencion: Literal["alta", "media", "baja"] = Field(
         description=(
             "alta: pide auditoría, presupuesto o reunión; "

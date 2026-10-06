@@ -108,7 +108,7 @@
     "prueba": "https://www.udon.com/ → \"UDON cuente con más de 80 restaurantes y tenga presencia en 10 países diferentes\" ; https://www.udon.com/ → \"C. Marie Curie, 4, 28521 Rivas-Vaciamadrid, Madrid\""
   },
   {
-    "lead": "Web: https://www.viena.es/es/. Ha descargado nuestra plantilla de calendario para redes sociales.",
+    "lead": "Web: https://www.viena.es/es/. Ha descargado nuestra guía de SEO local para restaurantes.",
     "esperado": {"sector": "hosteleria", "en_madrid": false, "tramo_sedes": "mas de 10", "intencion": "media", "accion": "descartar"},
     "caso": "Web con muy poco texto en la portada: los restaurantes (todos en Cataluña y Andorra) solo aparecen en otra página",
     "prueba": "https://www.viena.es/es/ → \"Encuentra un Viena\" ; https://www.viena.es/es/restaurants/ → \"Buscar Ciudad Abrera Andorra Barcelona Blanes\" ; https://www.viena.es/es/restaurants/ → \"Passeig Sant Joan, 26\" | La página de restaurantes lista 29 localidades de Cataluña más Andorra; ninguna en Madrid."

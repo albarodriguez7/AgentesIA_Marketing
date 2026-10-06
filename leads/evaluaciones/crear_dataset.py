@@ -2,7 +2,8 @@
 Sube a LangSmith los leads de dataset.json.
 
 Se puede ejecutar todas las veces que haga falta: crea el dataset si no existe,
-añade los leads nuevos y actualiza la respuesta correcta de los que hayan cambiado.
+añade los leads nuevos, actualiza los que hayan cambiado (respuesta correcta, caso o prueba)
+y borra de LangSmith los que ya no estén en dataset.json.
 Así dataset.json (que está en Git) es la única fuente de verdad del dataset.
 """
 
@@ -44,11 +45,18 @@ if __name__ == "__main__":
         metadata = {"caso": ejemplo["caso"], "prueba": ejemplo["prueba"]}
         if actual is None:
             nuevos.append({"inputs": {"lead": ejemplo["lead"]}, "outputs": ejemplo["esperado"], "metadata": metadata})
-        elif actual.outputs != ejemplo["esperado"]:
+        elif actual.outputs != ejemplo["esperado"] or {k: (actual.metadata or {}).get(k) for k in metadata} != metadata:
             cliente.update_example(example_id=actual.id, outputs=ejemplo["esperado"], metadata=metadata)
             actualizados += 1
 
     if nuevos:
         cliente.create_examples(dataset_id=dataset.id, examples=nuevos)
 
-    print(f"Dataset '{NOMBRE_DATASET}': {len(nuevos)} nuevos, {actualizados} actualizados, {len(ejemplos)} en total.")
+    # Si se cambia el texto de un lead en dataset.json, el antiguo se queda en LangSmith: lo borramos
+    leads_actuales = {ejemplo["lead"] for ejemplo in ejemplos}
+    sobrantes = [e for lead, e in existentes.items() if lead not in leads_actuales]
+    for ejemplo in sobrantes:
+        cliente.delete_example(example_id=ejemplo.id)
+
+    print(f"Dataset '{NOMBRE_DATASET}': {len(nuevos)} nuevos, {actualizados} actualizados, "
+          f"{len(sobrantes)} borrados, {len(ejemplos)} en total.")

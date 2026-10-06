@@ -34,9 +34,13 @@ Cómo trabajar:
 - No visites más de 4 páginas en total.
 - Cuando termines, responde exactamente con este formato:
 
-SECTOR: a qué se dedica la empresa.
+SECTOR: a qué se dedica la empresa y qué servicios ofrece.
 CIUDADES CON SEDES: ciudades donde la web dice que tiene sedes. Si hay una página que lista los centros, visítala para comprobarlo.
+  Escribe solo ciudades que aparezcan escritas en la web. Si la web no nombra ninguna, escribe "no aparece":
+  no la deduzcas del prefijo del teléfono, del idioma ni de nada más.
 NÚMERO DE SEDES SEGÚN LA WEB: copia literalmente la frase de la web que indique cuántas sedes tiene. Si no aparece ninguna, escribe "no aparece".
+LOCALES LISTADOS: si la web lista sus centros, clínicas, restaurantes o tiendas por su nombre (aunque no dé la dirección completa),
+  copia la lista, uno por línea. Si no hay ninguna lista, escribe "ninguna".
 DIRECCIONES ENCONTRADAS: copia literalmente cada dirección física distinta que aparezca en la web, una por línea. Si no has encontrado ninguna, escribe "ninguna".
 DATOS NO CONFIRMADOS: lo que no hayas podido comprobar en la web."""
 
@@ -82,11 +86,13 @@ La intención se decide por lo que el lead ha hecho con nosotros, no por su web.
 
 Para el número de sedes, usa las pruebas en este orden:
 1. Si NÚMERO DE SEDES SEGÚN LA WEB tiene una frase, usa el número que dice.
-2. Si no, cuenta las direcciones distintas de DIRECCIONES ENCONTRADAS.
-3. Si tampoco hay direcciones, deja el número de sedes vacío.
+2. Si no, cuenta los locales distintos de LOCALES LISTADOS y las direcciones distintas de DIRECCIONES ENCONTRADAS,
+   y quédate con la cifra más alta (un mismo local puede aparecer en las dos listas).
+3. Si no hay locales ni direcciones, deja el número de sedes vacío (por ejemplo, negocios a domicilio sin local).
 No lo deduzcas de ningún otro apartado.
 
-Para saber si está en Madrid: es verdadero si Madrid aparece en CIUDADES CON SEDES."""
+Para saber si está en Madrid: es verdadero si en CIUDADES CON SEDES aparece Madrid o un municipio de la Comunidad de Madrid.
+Si pone "no aparece", es falso."""
 
 
 extractor = modelo.with_structured_output(DatosLead)
