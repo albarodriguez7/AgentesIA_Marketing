@@ -31,9 +31,9 @@
   },
   {
     "lead": "Web: https://fisioterapiadomiciliomanuel.com/. Se ha suscrito a nuestra newsletter.",
-    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "1", "intencion": "baja", "accion": "nutrir"},
+    "esperado": {"sector": "salud", "en_madrid": false, "tramo_sedes": "desconocido", "intencion": "baja", "accion": "descartar"},
     "caso": "Negocio a domicilio, sin local",
-    "prueba": "https://fisioterapiadomiciliomanuel.com/ → \"Desde 2017 como fisioterapeuta a domicilio\" ; https://fisioterapiadomiciliomanuel.com/sobre-mi.php → \"(2020) Trabajo en exclusivo a domicilio\" | OJO: ninguna página de la web (inicio, servicios.php, sobre-mi.php) menciona Madrid ni da una dirección física; en_madrid y tramo_sedes no se pueden confirmar con la web."
+    "prueba": "https://fisioterapiadomiciliomanuel.com/ → \"Desde 2017 como fisioterapeuta a domicilio\" ; https://fisioterapiadomiciliomanuel.com/sobre-mi.php → \"(2020) Trabajo en exclusivo a domicilio\" | Ninguna página de la web (inicio, servicios.php, sobre-mi.php) menciona Madrid ni da una dirección física: sin sede confirmada (desconocido) y sin pruebas de que esté en Madrid."
   },
   {
     "lead": "Web: https://www.lateral.com/. Ha pedido un presupuesto para gestionar sus redes sociales.",
