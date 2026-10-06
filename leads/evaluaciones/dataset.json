@@ -3,36 +3,222 @@
     "lead": "Web: https://clinicaceodent.es/. Ha pedido una auditoría gratuita.",
     "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "1", "intencion": "alta", "accion": "contactar"},
     "caso": "Una sede en Madrid con intención alta",
-    "prueba": ""
+    "prueba": "https://clinicaceodent.es/ → \"TU DENTISTA EN HORTALEZA DESDE 1998\" ; https://clinicaceodent.es/ → \"Clínica Dental Ceodent Av. de San Luis, 54, 28033 Madrid\""
   },
   {
     "lead": "Web: https://www.fitnesspark.es/. Se ha suscrito a nuestra newsletter.",
     "esperado": {"sector": "otro", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "baja", "accion": "descartar"},
     "caso": "Cadena enorme (más de 380 gimnasios)",
-    "prueba": ""
+    "prueba": "https://www.fitnesspark.es/ → \"Fitness Park: El mejor gimnasio de última generación en España\" ; https://www.fitnesspark.es/ → \"Barcelona 14 clubes\" ; https://www.fitnesspark.es/ → \"Madrid 13 clubes\" | La web lista clubes por ciudad (unos 95 en España); los 380 del 'caso' corresponden al grupo, no a la web española."
   },
   {
     "lead": "Web: https://www.grupodentalcibeles.es/. Ha descargado nuestra guía de SEO local.",
     "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "media", "accion": "contactar"},
     "caso": "Cadena pequeña en Madrid",
-    "prueba": ""
+    "prueba": "https://www.grupodentalcibeles.es/ → \"Las Clínicas Dentales en Getafe, Leganés y Torrejón de Ardoz\" ; https://www.grupodentalcibeles.es/ → \"28901 Getafe (Madrid)\" ; https://www.grupodentalcibeles.es/ → \"Calle Juan Muñoz, 30 (esquina Calle Nuncio) 28911, Leganés\" ; https://www.grupodentalcibeles.es/ → \"Av. de la Constitución, 51, 28850 Torrejón de Ardoz\" ; https://www.grupodentalcibeles.es/ → \"Ronda Buena Vista 45, 45005 Toledo\" | 4 clínicas (Getafe, Leganés, Torrejón de Ardoz y Toledo)."
   },
   {
     "lead": "Web: https://www.bcnlanguages.com/. Ha pedido una auditoría gratuita.",
     "esperado": {"sector": "educacion", "en_madrid": false, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "descartar"},
     "caso": "Fuera de Madrid aunque la intención sea alta",
-    "prueba": ""
+    "prueba": "https://www.bcnlanguages.com/ → \"Cursos de idiomas en Barcelona - Academia BCN Languages\" ; https://www.bcnlanguages.com/ → \"Centros en Barcelona Centro Gracia\" ; https://www.bcnlanguages.com/ → \"Centro Urquinaona\" ; https://www.bcnlanguages.com/ → \"Centro Les Corts\" ; https://www.bcnlanguages.com/ → \"Centro Sagrada Família\" ; https://www.bcnlanguages.com/ → \"Academia de idiomas en Palma de Mallorca\" | 4 centros en Barcelona + Palma de Mallorca = 5."
   },
   {
     "lead": "Web: https://www.pizzavk.com/. Ha descargado nuestra guía de SEO local.",
     "esperado": {"sector": "hosteleria", "en_madrid": true, "tramo_sedes": "1", "intencion": "media", "accion": "nutrir"},
     "caso": "Hostelería con una sede",
-    "prueba": ""
+    "prueba": "https://www.pizzavk.com/ → \"Pizzería Vallekas\" ; https://www.pizzavk.com/contact → \"Pizza VK Avenida de Pablo Neruda 75, Madrid, 28018\""
   },
   {
     "lead": "Web: https://fisioterapiadomiciliomanuel.com/. Se ha suscrito a nuestra newsletter.",
     "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "1", "intencion": "baja", "accion": "nutrir"},
     "caso": "Negocio a domicilio, sin local",
-    "prueba": ""
+    "prueba": "https://fisioterapiadomiciliomanuel.com/ → \"Desde 2017 como fisioterapeuta a domicilio\" ; https://fisioterapiadomiciliomanuel.com/sobre-mi.php → \"(2020) Trabajo en exclusivo a domicilio\" | OJO: ninguna página de la web (inicio, servicios.php, sobre-mi.php) menciona Madrid ni da una dirección física; en_madrid y tramo_sedes no se pueden confirmar con la web."
+  },
+  {
+    "lead": "Web: https://www.lateral.com/. Ha pedido un presupuesto para gestionar sus redes sociales.",
+    "esperado": {"sector": "hosteleria", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "alta", "accion": "contactar"},
+    "caso": "Cadena de más de 10 restaurantes con sedes en Madrid y en otras ciudades; frontera 8 (contactar aunque no sume puntos por sedes)",
+    "prueba": "https://www.lateral.com/ → \"Nuestros restaurantes Madrid Barcelona Zaragoza Valencia Málaga Cáceres Torrevieja\" ; https://www.lateral.com/ → \"Castellana 42 (Madrid)\" ; https://www.lateral.com/ → \"Consell de Cent (Barcelona)\" ; https://www.lateral.com/ → \"Patriarca (Valencia)\" | Lista 21 restaurantes, 16 de ellos en Madrid."
+  },
+  {
+    "lead": "Web: https://casalucio.es/. Ha descargado nuestra guía para conseguir más reseñas en Google.",
+    "esperado": {"sector": "hosteleria", "en_madrid": true, "tramo_sedes": "1", "intencion": "media", "accion": "nutrir"},
+    "caso": "Restaurante de una sede en Madrid con intención media; frontera 7 (se queda en nutrir)",
+    "prueba": "https://casalucio.es/ → \"Casa Lucio y su reconocida cocina tienen aún mucho por decir en el panorama gastronómico de Madrid\" ; https://casalucio.es/ → \"DIRECCIÓN: Cava Baja 35, Madrid 28005 – Madrid\""
+  },
+  {
+    "lead": "Web: https://www.labola.es/es. Se ha suscrito a nuestra newsletter.",
+    "esperado": {"sector": "hosteleria", "en_madrid": true, "tramo_sedes": "1", "intencion": "baja", "accion": "nutrir"},
+    "caso": "Taberna de una sede en Madrid con intención baja; frontera 5 (nutrir por sector y Madrid)",
+    "prueba": "https://www.labola.es/es → \"Taberna La Bola · Cocido madrileño desde 1870\" ; https://www.labola.es/es → \"C/ Bola 5, 28013 Madrid\""
+  },
+  {
+    "lead": "Web: https://www.cun.es/. Se ha apuntado a recibir nuestro boletín mensual.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "baja", "accion": "nutrir"},
+    "caso": "Hospital grande pero con solo 2 sedes (Pamplona y Madrid), intención baja; frontera 7",
+    "prueba": "https://www.cun.es/ → \"SEDES: NAVARRA +34 948 255 400 MADRID +34 91 353 19 20\" ; https://www.cun.es/ → \"Más de 50 departamentos y servicios médicos en Madrid y Pamplona\""
+  },
+  {
+    "lead": "Web: https://www.centrotap.es/. Ha reservado una reunión con nuestro equipo para hablar de su web.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "1", "intencion": "alta", "accion": "contactar"},
+    "caso": "Centro de psicología de una sede en Madrid; la dirección solo aparece al final de una página muy larga (más allá de los 4000 caracteres que lee el agente)",
+    "prueba": "https://www.centrotap.es/ → \"Centro TAP: Psicología, Psiquiatría, Logopedia, Psicopedagogía, Sexología y Formación\" ; https://www.centrotap.es/ → \"servicio de atención integral en la zona norte de Madrid capital\" ; https://www.centrotap.es/ → \"Localización: Av. Manoteras, 10 28050 Madrid\""
+  },
+  {
+    "lead": "Web: https://www.casa-carmela.com/es/. Ha descargado nuestra guía de SEO local.",
+    "esperado": {"sector": "hosteleria", "en_madrid": false, "tramo_sedes": "1", "intencion": "media", "accion": "descartar"},
+    "caso": "Restaurante de una sede fuera de Madrid (Valencia)",
+    "prueba": "https://www.casa-carmela.com/es/ → \"Restaurante Casa Carmela | Valencia\" ; https://www.casa-carmela.com/es/ → \"Carrer d'Isabel de Villena, 155. 46011 València.\""
+  },
+  {
+    "lead": "Web: https://www.nebrija.com/. Ha descargado nuestro ebook sobre captación de alumnos con Google Ads.",
+    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "media", "accion": "contactar"},
+    "caso": "Universidad con 4 campus en Madrid; web muy larga con muchas páginas y el dato de sedes lejos del principio",
+    "prueba": "https://www.nebrija.com/ → \"Cuatro Campus en Madrid\" ; https://www.nebrija.com/ → \"Campus de Ciencias de la Vida en La Berzosa\" | Los 4 campus: La Berzosa, Madrid-Princesa, Madrid-San Francisco de Sales y Madrid-Arturo Soria. La web llega con caracteres mal codificados (Ã¡) al leerla con requests."
+  },
+  {
+    "lead": "Web: https://www.cef.com/. Ha solicitado un presupuesto para una campaña de captación de alumnos.",
+    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "contactar"},
+    "caso": "Centro de formación con sedes en Madrid y en otras ciudades (2 a 10)",
+    "prueba": "https://www.cef.com/ → \"en nuestras sedes de Madrid, Barcelona y Valencia\" ; https://www.cef.com/conocenos/nuestras-sedes → \"Madrid Barcelona Valencia Santo Domingo\" ; https://www.cef.com/conocenos/nuestras-sedes → \"(concretamente en el Paseo del General Martínez Campos, 5 y en la calle José Abascal, 14), encontramos nuestras sedes madrileñas\" | Sedes: 2 en Madrid + Barcelona + Valencia + Santo Domingo = 5."
+  },
+  {
+    "lead": "Web: https://www.clinicabaviera.com/. Se ha interesado por nuestro servicio de publicidad en Meta.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "media", "accion": "nutrir"},
+    "caso": "Cadena de más de 150 clínicas con sedes en Madrid y fuera; frontera 7 (nutrir)",
+    "prueba": "https://www.clinicabaviera.com/ → \"Más de 150 clínicas oftalmológicas presentes en 5 países y en las principales ciudades de España\" ; https://www.clinicabaviera.com/ → \"Madrid. Calle de Alcalá, 269\""
+  },
+  {
+    "lead": "Web: https://marcoaldany.com/. Ha pedido una auditoría gratuita.",
+    "esperado": {"sector": "estetica", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "alta", "accion": "contactar"},
+    "caso": "Cadena de peluquería y estética de más de 10 salones; la dirección de Madrid está en la página de salones",
+    "prueba": "https://marcoaldany.com/ → \"Peluquerías y centros de estética - Marco Aldany\" ; https://marcoaldany.com/ → \"sus más de 150 salones abiertos en Europa, Asia y Latinoamérica\" ; https://marcoaldany.com/salones/ → \"Marco Aldany Madrid Princesa, 16 Calle de la Princesa, 16. Madrid\""
+  },
+  {
+    "lead": "Web: https://www.dir.cat/es. Ha pedido una auditoría gratuita.",
+    "esperado": {"sector": "otro", "en_madrid": false, "tramo_sedes": "mas de 10", "intencion": "alta", "accion": "descartar"},
+    "caso": "Cadena de gimnasios de Cataluña; trampa: uno de sus centros se llama 'DiR Av. Madrid' y no está en Madrid",
+    "prueba": "https://www.dir.cat/es → \"Gimnasios DIR: Fitness, salud y bienestar en Barcelona\" ; https://www.dir.cat/es → \"DiR Av. Madrid DiR Campus DiR Castillejos\" | Lista más de 30 centros en Barcelona y otras localidades catalanas (Manresa, Mataró, Sant Cugat, Tarragona, Sabadell...)."
+  },
+  {
+    "lead": "Web: https://www.udon.com/. Se ha suscrito a nuestra newsletter.",
+    "esperado": {"sector": "hosteleria", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "baja", "accion": "nutrir"},
+    "caso": "Cadena de restaurantes de más de 10 locales con alguno en la Comunidad de Madrid, intención baja",
+    "prueba": "https://www.udon.com/ → \"UDON cuente con más de 80 restaurantes y tenga presencia en 10 países diferentes\" ; https://www.udon.com/ → \"C. Marie Curie, 4, 28521 Rivas-Vaciamadrid, Madrid\""
+  },
+  {
+    "lead": "Web: https://www.viena.es/es/. Ha descargado nuestra plantilla de calendario para redes sociales.",
+    "esperado": {"sector": "hosteleria", "en_madrid": false, "tramo_sedes": "mas de 10", "intencion": "media", "accion": "descartar"},
+    "caso": "Web con muy poco texto en la portada: los restaurantes (todos en Cataluña y Andorra) solo aparecen en otra página",
+    "prueba": "https://www.viena.es/es/ → \"Encuentra un Viena\" ; https://www.viena.es/es/restaurants/ → \"Buscar Ciudad Abrera Andorra Barcelona Blanes\" ; https://www.viena.es/es/restaurants/ → \"Passeig Sant Joan, 26\" | La página de restaurantes lista 29 localidades de Cataluña más Andorra; ninguna en Madrid."
+  },
+  {
+    "lead": "Web: https://mymoestetica.com/. Ha descargado nuestra guía de marketing para centros de estética.",
+    "esperado": {"sector": "estetica", "en_madrid": true, "tramo_sedes": "1", "intencion": "media", "accion": "nutrir"},
+    "caso": "Centro de estética de una sede en Madrid; frontera 7",
+    "prueba": "https://mymoestetica.com/ → \"Centro de estética en Chamberí\" ; https://mymoestetica.com/ → \"Calle Andrés Mellado, 71, Madrid.\""
+  },
+  {
+    "lead": "Web: https://clubdebellezaodalys.com/. Ha solicitado presupuesto para una campaña en Instagram.",
+    "esperado": {"sector": "estetica", "en_madrid": true, "tramo_sedes": "1", "intencion": "alta", "accion": "contactar"},
+    "caso": "Peluquería y estética de una sede en Madrid con web de muy poco texto; frontera 8",
+    "prueba": "https://clubdebellezaodalys.com/ → \"Tu peluquería y centro de estética en Chamberí\" ; https://clubdebellezaodalys.com/ → \"Galileo 59, 28015, Madrid.\""
+  },
+  {
+    "lead": "Web: https://cronopiosidiomas.com/. Se ha registrado para recibir las novedades de nuestro blog.",
+    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "1", "intencion": "baja", "accion": "nutrir"},
+    "caso": "Escuela de español de una sede en Madrid con la web en inglés y la dirección al final de la página",
+    "prueba": "https://cronopiosidiomas.com/ → \"Spanish school in Madrid – Cronopios Idiomas\" ; https://cronopiosidiomas.com/ → \"C. Espalter, 12. Madrid. 28014\""
+  },
+  {
+    "lead": "Web: https://www.trainingboutique.es/. Ha pedido una reunión para hablar de su estrategia digital.",
+    "esperado": {"sector": "otro", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "nutrir"},
+    "caso": "Centros de entrenamiento personal (sector 'otro') con 4 centros en Madrid; frontera 7: si se clasifica como salud pasaría a contactar",
+    "prueba": "https://www.trainingboutique.es/ → \"Entrenamiento Personal en Madrid | TrainingBoutique\" ; https://www.trainingboutique.es/ → \"4 Centros Madrid\" ; https://www.trainingboutique.es/ → \"Centros Las Rozas Goya Castelló Pozuelo\""
+  },
+  {
+    "lead": "Web: https://www.softcode.es/. Ha solicitado un presupuesto para posicionamiento SEO.",
+    "esperado": {"sector": "otro", "en_madrid": true, "tramo_sedes": "1", "intencion": "alta", "accion": "nutrir"},
+    "caso": "Empresa de software en Madrid con una oficina e intención alta; frontera 5 (nutrir)",
+    "prueba": "https://www.softcode.es/ → \"Softcode - Desarrollo de Software a medida\" ; https://www.softcode.es/ → \"Paseo de la Castellana, 259 C Cuatro Torres Business Area, 28046 Madrid\""
+  },
+  {
+    "lead": "Web: https://www.derojas.es/. Se ha interesado por nuestro servicio de gestión de Google Business Profile.",
+    "esperado": {"sector": "otro", "en_madrid": true, "tramo_sedes": "1", "intencion": "media", "accion": "descartar"},
+    "caso": "Inmobiliaria de una oficina en Madrid con intención media; frontera 4 (descartar). La dirección solo aparece en el pie, tras un listado enorme de municipios",
+    "prueba": "https://www.derojas.es/ → \"DE ROJAS SERVICIOS INMOBILIARIOS\" ; https://www.derojas.es/ → \"COVARRUBIAS, 30 28010 - Madrid\""
+  },
+  {
+    "lead": "Web: https://www.kidsandus.es/es. Ha pedido una auditoría gratuita de su web.",
+    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "alta", "accion": "contactar"},
+    "caso": "Red de academias de inglés de más de 10 centros con academias en Madrid; la web llega mal codificada",
+    "prueba": "https://www.kidsandus.es/es → \"Contamos con más de 700 centros\" ; https://www.kidsandus.es/es/academias-ingles/academias-ingles-comunidad-madrid/ → \"Academias de inglés en la Comunidad de Madrid\""
+  },
+  {
+    "lead": "Web: https://www.policlinicagipuzkoa.com/. Ha solicitado una reunión con nuestro equipo.",
+    "esperado": {"sector": "salud", "en_madrid": false, "tramo_sedes": "1", "intencion": "alta", "accion": "descartar"},
+    "caso": "Hospital de una sede fuera de Madrid (San Sebastián) con intención alta",
+    "prueba": "https://www.policlinicagipuzkoa.com/ → \"El primer centro sanitario privado de nuestro entorno, capaz de cubrir todas las especialidades de la medicina\" ; https://www.policlinicagipuzkoa.com/ → \"Paseo Miramón, 174. 20014 Donostia / San Sebastián\""
+  },
+  {
+    "lead": "Web: https://estarbienencasa.com/. Ha pedido presupuesto para una campaña de Google Ads.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "desconocido", "intencion": "alta", "accion": "contactar"},
+    "caso": "Fisioterapia a domicilio en Madrid sin local: ninguna página da una dirección ni un número de sedes",
+    "prueba": "https://estarbienencasa.com/ → \"Expertos fisioterapeutas titulados a domicilio\" ; https://estarbienencasa.com/ → \"Ofrecemos servicios de fisioterapia a domicilio en toda la Comunidad de Madrid\" | Revisadas también /contacto/, /servicios-a-domicilio/ y /aviso-legal/: sin dirección física."
+  },
+  {
+    "lead": "Web: https://www.enclase.es/. Se ha suscrito a nuestra newsletter.",
+    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "baja", "accion": "nutrir"},
+    "caso": "Clases particulares a domicilio con red de oficinas; las direcciones solo aparecen en la página de contacto",
+    "prueba": "https://www.enclase.es/ → \"una red de oficinas cercanas\" ; https://www.enclase.es/contacto/ → \"C/ Isla Graciosa 1, 28700 S.S de los Reyes – Madrid\" ; https://www.enclase.es/contacto/ → \"EnClase – Madrid – Arturo Soria C/ Virgen de la Novena 7, 28027 Madrid\" ; https://www.enclase.es/contacto/ → \"EnClase – Albacete C/ Collado Piña, 33. 02003 Albacete\" ; https://www.enclase.es/contacto/ → \"EnClase – Valencia – Centro Calle Cirilo Amorós, 8. 46004 Valencia\" | Oficinas abiertas: central (S.S. de los Reyes), Arturo Soria, Mirasierra, Las Rozas, Villalba, Albacete, Barcelona y Valencia = 8 (más 2 'Próxima Apertura')."
+  },
+  {
+    "lead": "Web: https://centroalcora.com/. Ha reservado una reunión para hablar de captación de alumnos.",
+    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "1", "intencion": "alta", "accion": "contactar"},
+    "caso": "Clases particulares a domicilio pero con una oficina en Madrid",
+    "prueba": "https://centroalcora.com/ → \"Clases particulares a domicilio y online\" ; https://centroalcora.com/ → \"Avda. Alberto Alcocer, 46. 5º A 28016 MADRID\""
+  },
+  {
+    "lead": "Web: https://milaperis.com/. Ha descargado nuestro ebook sobre email marketing para centros de belleza.",
+    "esperado": {"sector": "estetica", "en_madrid": false, "tramo_sedes": "2 a 10", "intencion": "media", "accion": "descartar"},
+    "caso": "Cadena pequeña de estética fuera de Madrid; trampa: calles llamadas Bilbao y Salamanca",
+    "prueba": "https://milaperis.com/ → \"CENTROS DE BELLEZA EN VALENCIA\" ; https://milaperis.com/ → \"Calle del Mar 50 , València\" ; https://milaperis.com/ → \"Calle Bilbao 44, València\" ; https://milaperis.com/ → \"Calle Salamanca 31, València\" | 5 centros, todos en València."
+  },
+  {
+    "lead": "Web: https://arzabal.com/. Ha descargado nuestra guía de SEO local.",
+    "esperado": {"sector": "hosteleria", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "media", "accion": "contactar"},
+    "caso": "Grupo de 4 restaurantes en Madrid",
+    "prueba": "https://arzabal.com/ → \"Arzábal Retiro 01 / 04\" ; https://arzabal.com/ → \"Arzábal Market 04/ 04\" ; https://arzabal.com/ → \"Calle de Rafael Salgado, Bernabeu Puerta 28, 28036, (MAD)\""
+  },
+  {
+    "lead": "Web: https://www.cuestasport.com/. Se ha suscrito a nuestra newsletter.",
+    "esperado": {"sector": "otro", "en_madrid": false, "tramo_sedes": "1", "intencion": "baja", "accion": "descartar"},
+    "caso": "Gimnasio de una sede fuera de Madrid (Sevilla)",
+    "prueba": "https://www.cuestasport.com/ → \"lleva más de 20 años siendo el gimnasio de referencia en Sevilla centro\" ; https://www.cuestasport.com/ → \"CUESTA DEL ROSARIO 8, 41004, SEVILLA\""
+  },
+  {
+    "lead": "Web: https://www.infinitytrainers.es/. Se ha suscrito a nuestra newsletter.",
+    "esperado": {"sector": "otro", "en_madrid": true, "tramo_sedes": "desconocido", "intencion": "baja", "accion": "descartar"},
+    "caso": "Entrenamiento personal a domicilio en Madrid sin local ni dirección (sector 'otro')",
+    "prueba": "https://www.infinitytrainers.es/ → \"Infinity Trainers - Entrenamiento personal a domicilio en Madrid\" ; https://www.infinitytrainers.es/ → \"Nuestros entrenadores se desplazan a todos los barrios de Madrid capital\" | Ninguna página da una dirección de local."
+  },
+  {
+    "lead": "Web: https://www.recuperateya.es/. Ha pedido una auditoría gratuita de su ficha de Google.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "contactar"},
+    "caso": "Clínica de fisioterapia con 2 sedes en Madrid",
+    "prueba": "https://www.recuperateya.es/ → \"Calle de Sandoval 17, Madrid\" ; https://www.recuperateya.es/ → \"Calle de Juan Bravo 66, Madrid\""
+  },
+  {
+    "lead": "Web: https://www.nailsfactory.es/. Se ha interesado por nuestro servicio de gestión de redes sociales.",
+    "esperado": {"sector": "estetica", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "media", "accion": "nutrir"},
+    "caso": "Franquicia de uñas y belleza de más de 10 centros; los centros de Madrid solo aparecen en otra página",
+    "prueba": "https://www.nailsfactory.es/ → \"175 Franquicias por toda España\" ; https://www.nailsfactory.es/todos-los-centros/ → \"Comunidad de Madrid: Madrid Alcobendas Fuenlabrada\""
+  },
+  {
+    "lead": "Web: https://www.colegiodelibes.com/. Ha solicitado un presupuesto para campañas en Google Ads.",
+    "esperado": {"sector": "educacion", "en_madrid": false, "tramo_sedes": "1", "intencion": "alta", "accion": "descartar"},
+    "caso": "Escuela de una sede fuera de Madrid (Salamanca); trampa: menciona traslados desde Madrid",
+    "prueba": "https://www.colegiodelibes.com/ → \"Learn spanish at Colegio Delibes\" ; https://www.colegiodelibes.com/ → \"Bus transfers from Madrid to Salamanca\" ; https://www.colegiodelibes.com/ → \"Plaza Julián Sánchez El Charro, 1 37005 Salamanca (España)\""
   }
 ]
