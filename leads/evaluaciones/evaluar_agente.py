@@ -1,3 +1,5 @@
+import sys
+
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
 from langsmith import Client
@@ -38,6 +40,7 @@ def ejecutar_agente(inputs: dict) -> dict:
         "tramo_sedes": calcular_tramo(datos.numero_sedes),       # agente.invoke(...)  →  resultado (la ficha final)
                                                                                           # └─ ["datos"]  →  DatosLead (lo rellenó el nodo extraer)
                                                                                                              #  └─ .numero_sedes  →  4
+        "intencion": datos.intencion,
         "accion": resultado["accion"],
     }
 
@@ -61,6 +64,10 @@ def sedes_correctas(outputs: dict, reference_outputs: dict) -> bool:
     return outputs["tramo_sedes"] == reference_outputs["tramo_sedes"]
 
 
+def intencion_correcta(outputs: dict, reference_outputs: dict) -> bool:
+    return outputs["intencion"] == reference_outputs["intencion"]
+
+
 def accion_correcta(outputs: dict, reference_outputs: dict) -> bool:
     return outputs["accion"] == reference_outputs["accion"]
 
@@ -70,7 +77,7 @@ if __name__ == "__main__":
     cliente.evaluate(    # EVALUATE() es quien hace todo, conecta los dos dicts(outputs y reference_outputs) para que "evaluators" ejecute
         ejecutar_agente,   
         data=NOMBRE_DATASET,
-        evaluators=[sector_correcto, madrid_correcto, sedes_correctas, accion_correcta],
-        experiment_prefix="grafo-v2",  # este nombre se lo doy yo
+        evaluators=[sector_correcto, madrid_correcto, sedes_correctas, intencion_correcta, accion_correcta],
+        experiment_prefix=sys.argv[1] if len(sys.argv) > 1 else "grafo-v2",  # este nombre se lo doy yo (se puede pasar al lanzar el script)
         max_concurrency=2,    # ejecuta 2 leads a la vez, en paralelo, como hacía batch
     ) 
