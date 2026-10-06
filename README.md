@@ -67,7 +67,7 @@ flowchart TD
 
 **Pruebas en vez de conclusiones.** En lugar de preguntar a la IA "¿cuántas sedes tiene?", se le pide que copie literalmente las direcciones o la frase de la web que lo indique. Si no encuentra nada, debe decir "no aparece" en lugar de deducirlo. Esto evitó que el agente afirmara datos con poca evidencia (por ejemplo, "1 sede" leyendo solo la portada).
 
-**Pide solo el dato que la decisión necesita.** Una regla inicial que contaba direcciones falló con una cadena de más de 380 gimnasios (dijo "1 sede"). Como la decisión solo necesita saber el tramo de sedes, se amplió qué cuenta como prueba: una frase de la propia empresa vale más que contar direcciones.
+**Pide solo el dato que la decisión necesita.** Una regla inicial que contaba direcciones falló con una cadena de gimnasios con decenas de clubes (dijo "1 sede"). Como la decisión solo necesita saber el tramo de sedes, se amplió qué cuenta como prueba: una frase de la propia empresa vale más que contar direcciones.
 
 **Los límites importantes van en el código.** El máximo de páginas por lead no depende de que la IA "obedezca" las instrucciones: al llegar al límite, el código le retira la posibilidad de usar herramientas (`tool_choice="none"`).
 
@@ -91,26 +91,51 @@ El techo de 10 sedes existe porque una cadena muy grande suele tener su propio d
 
 ## Calidad
 
-### Tests de las reglas
-16 tests con `pytest` que comprueban la puntuación y la decisión, incluidos los casos límite (las fronteras entre acciones, sedes desconocidas, el techo de 10 sedes, leads fuera de Madrid). Se ejecutan en menos de un segundo y sin coste.
+### Tests
+87 tests con `pytest` que se ejecutan en menos de un segundo y sin coste:
+- **Reglas de negocio:** la puntuación y la decisión, incluidos los casos límite (las fronteras entre acciones, sedes desconocidas, el techo de 10 sedes, leads fuera de Madrid).
+- **Coherencia del dataset:** recalculan la acción de cada lead del dataset con las reglas, para que una respuesta correcta mal apuntada a mano no haga "fallar" al agente sin tener la culpa.
 
 ### Evaluación del agente
-Dataset en LangSmith con 6 leads reales y la respuesta correcta comprobada a mano, elegidos para cubrir casos distintos: una sede, cadena pequeña, cadena enorme, fuera de Madrid, hostelería y un negocio a domicilio. Cuatro evaluadores comprueban por separado el sector, la ubicación, el tramo de sedes y la acción final.
+Dataset en LangSmith con **35 leads reales** de empresas españolas. La respuesta correcta de cada uno (sector, si está en Madrid, tramo de sedes, intención y acción) está comprobada leyendo la web de la empresa, y cada lead guarda la **cita literal y la URL** que la justifican. Cinco evaluadores comprueban cada campo por separado.
 
-| Métrica | Resultado |
+El dataset está diseñado para cubrir todos los casos y no solo los fáciles:
+- Los 5 sectores, empresas en Madrid y fuera, y cadenas con sedes en Madrid y en otras ciudades.
+- Una sede, de 2 a 10, más de 10 y número desconocido; los tres niveles de intención.
+- Reparto equilibrado de acciones (13 contactar · 10 nutrir · 12 descartar) y casos en la frontera entre acciones (4/5 y 7/8 puntos).
+- **Casos difíciles a propósito:** datos al final de páginas muy largas, direcciones que solo están en la página de contacto, negocios a domicilio sin local, webs con muy poco texto y trampas como un gimnasio de Barcelona llamado "DiR Av. Madrid" o un centro de estética de Valencia en la calle Salamanca.
+
+| Versión | Acción correcta |
 |---|---|
-| Aciertos | 6 de 6 en los cuatro evaluadores |
-| Coste aproximado | ~0,005 $ por lead (GPT-4.1 mini) |
-| Tiempo | 5 a 10 segundos por lead |
+| Antes de las mejoras (`grafo-v3`) | 90 % |
+| Versión final (`grafo-v5`), 3 ejecuciones | 34, 35 y 35 de 35 → **99 %** |
 
-Algo que aprendí midiendo: alrededor del **97 % de los tokens son de entrada**, porque en cada vuelta del agente se reenvía toda la conversación. Y el coste varía bastante entre ejecuciones del mismo agente, así que para comparar versiones hay que usar varias ejecuciones.
+El único fallo de la versión final fue el caso trampa "DiR Av. Madrid", que el agente confundió una vez con una sede en Madrid.
 
-### Un ciclo de mejora completo
-El propio dataset reveló un fallo de las reglas: una academia de Barcelona salía como "contactar" para una agencia de Madrid. Se corrigió así:
+Cada lead tarda entre 5 y 20 segundos, según cuántas páginas necesite visitar el agente.
+
+Algo que aprendí midiendo: la mayor parte de los tokens son de **entrada**, porque en cada vuelta del agente se reenvía toda la conversación. Y los resultados varían entre ejecuciones del mismo agente (el modelo no responde siempre igual y las webs a veces no responden), así que para dar una cifra y comparar versiones uso varias ejecuciones.
+
+### Ciclos de mejora
+
+**1. Una regla de negocio.** El primer dataset reveló que una academia de Barcelona salía como "contactar" para una agencia de Madrid. Se corrigió así:
 1. **Test** que describe el comportamiento deseado (falla).
 2. **Código:** una cláusula de guarda en la puntuación (los tests pasan).
 3. **Dataset** actualizado con la nueva respuesta correcta.
 4. **Evaluación** de la nueva versión y comparación con la anterior en LangSmith, comprobando que solo cambiaba lo esperado.
+
+**2. Del 90 % al 99 %.** Al ampliar el dataset a leads reales y difíciles, analicé uno a uno los fallos en las trazas de LangSmith y separé los errores del agente de los errores de las propias etiquetas:
+
+| Fallo observado | Causa | Corrección |
+|---|---|---|
+| No veía direcciones de páginas largas | La herramienta cortaba el texto en 4.000 caracteres | Leer el principio y el final de la página, donde suele estar el pie con la dirección |
+| Situaba en Madrid a un negocio cuya web no nombra ninguna ciudad | El modelo deducía la ciudad | Si la web no la nombra, escribir "no aparece" |
+| Contaba 1 sede en una cadena de 21 restaurantes | Solo contaba direcciones completas | Contar también los locales que la web lista por su nombre |
+| Gimnasios clasificados como salud | El campo `sector` no tenía criterio | Definir qué entra en cada sector |
+| Acentos ilegibles ("Ã¡") | Webs que no declaran su codificación | Detectar la codificación |
+| Una web no cargó durante la evaluación | Fallo puntual de la web | Reintentar una vez |
+
+La evaluación también sirvió para **depurar el dataset**: corregí algunas etiquetas y quité dos leads cuyo número de sedes era ambiguo incluso para una persona (en uno de ellos el agente había leído la web mejor que yo).
 
 ---
 
@@ -130,7 +155,7 @@ Python 3.13 · LangChain · LangGraph · OpenAI (GPT-4.1 mini) · Pydantic · La
 ├── auditoria/                  ← agente de auditoría de captación (en desarrollo)
 ├── compartido/
 │   └── herramientas.py         ← herramienta para leer webs, común a los agentes
-├── tests/                      ← tests de las reglas
+├── tests/                      ← tests de las reglas y de coherencia del dataset
 └── ejemplos/                   ← scripts de aprendizaje y agente con create_agent (para comparar)
 ```
 
@@ -150,9 +175,10 @@ Copia `.env.example` como `.env` y rellena tus claves.
 
 | Quiero... | Orden |
 |---|---|
-| Cualificar un lead de ejemplo | `poetry run python agente_grafo.py` |
+| Cualificar un lead de ejemplo | `poetry run python -m leads.agente_grafo` |
 | Ejecutar los tests | `poetry run pytest` |
-| Lanzar la evaluación (requiere LangSmith) | `poetry run python -m evaluaciones.evaluar_agente` |
+| Subir el dataset a LangSmith | `poetry run python -m leads.evaluaciones.crear_dataset` |
+| Lanzar la evaluación (requiere LangSmith) | `poetry run python -m leads.evaluaciones.evaluar_agente nombre-del-experimento` |
 
 ---
 
@@ -160,7 +186,8 @@ Copia `.env.example` como `.env` y rellena tus claves.
 
 - Reducir el coste eliminando el texto repetido (menús y enlaces) que se reenvía en cada vuelta, y medir el ahorro con el dataset.
 - Que `investigar` entregue su resumen como datos estructurados en lugar de texto con etiquetas.
-- Ampliar el dataset de evaluación con cada caso real en el que el agente falle.
+- Distinguir calles y locales con nombre de ciudad ("DiR Av. Madrid") de las ciudades reales, el único fallo que queda.
+- Seguir ampliando el dataset de evaluación con cada caso real en el que el agente falle.
 - Siguientes módulos de la plataforma: auditoría de captación, métricas y retención.
 
 ---

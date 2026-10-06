@@ -69,7 +69,7 @@ flowchart TD
 
 **Evidence instead of conclusions.** Instead of asking the AI "how many locations does it have?", it is asked to literally copy the addresses or the sentence on the website that states it. If it finds nothing, it must say "not found" rather than infer it. This stopped the agent from asserting data with little evidence (for example, "1 location" after reading only the home page).
 
-**Ask only for the data the decision needs.** An early rule that counted addresses failed with a chain of more than 380 gyms (it said "1 location"). Since the decision only needs to know the range of locations, the definition of evidence was broadened: a statement from the company itself is worth more than counting addresses.
+**Ask only for the data the decision needs.** An early rule that counted addresses failed with a gym chain with dozens of clubs (it said "1 location"). Since the decision only needs to know the range of locations, the definition of evidence was broadened: a statement from the company itself is worth more than counting addresses.
 
 **Important limits live in the code.** The maximum number of pages per lead does not depend on the AI "obeying" the instructions: when the limit is reached, the code removes its ability to use tools (`tool_choice="none"`).
 
@@ -93,26 +93,51 @@ The 10-location cap exists because a very large chain usually has its own market
 
 ## Quality
 
-### Tests for the rules
-16 `pytest` tests that check scoring and decisions, including edge cases (the boundaries between actions, unknown number of locations, the 10-location cap, leads outside Madrid). They run in under a second and at no cost.
+### Tests
+87 `pytest` tests that run in under a second and at no cost:
+- **Business rules:** scoring and decisions, including edge cases (the boundaries between actions, unknown number of locations, the 10-location cap, leads outside Madrid).
+- **Dataset consistency:** they recompute the action of every lead in the dataset using the rules, so that a correct answer written down wrongly by hand cannot make the agent "fail" through no fault of its own.
 
 ### Agent evaluation
-A LangSmith dataset with 6 real leads and the correct answer verified by hand, chosen to cover different cases: one location, small chain, very large chain, outside Madrid, hospitality and a home-visit business. Four evaluators check the sector, the location, the range of locations and the final action separately.
+A LangSmith dataset with **35 real leads** from Spanish businesses. The correct answer for each one (sector, whether it is in Madrid, range of locations, intent and action) was verified by reading the company's website, and each lead stores the **literal quote and URL** that back it up. Five evaluators check each field separately.
 
-| Metric | Result |
+The dataset is designed to cover every case, not just the easy ones:
+- All 5 sectors, businesses inside and outside Madrid, and chains with locations in Madrid and other cities.
+- One location, 2 to 10, more than 10 and unknown; all three intent levels.
+- A balanced mix of actions (13 contact · 10 nurture · 12 discard) and cases right on the boundary between actions (4/5 and 7/8 points).
+- **Deliberately hard cases:** data at the end of very long pages, addresses that only appear on the contact page, home-visit businesses with no premises, websites with very little text, and traps such as a Barcelona gym called "DiR Av. Madrid" or a Valencia beauty salon on Salamanca Street.
+
+| Version | Correct action |
 |---|---|
-| Accuracy | 6 out of 6 on all four evaluators |
-| Approximate cost | ~$0.005 per lead (GPT-4.1 mini) |
-| Time | 5 to 10 seconds per lead |
+| Before the improvements (`grafo-v3`) | 90% |
+| Final version (`grafo-v5`), 3 runs | 34, 35 and 35 out of 35 → **99%** |
 
-Something I learned by measuring: around **97% of the tokens are input tokens**, because the whole conversation is resent on every turn of the agent loop. Cost also varies noticeably between runs of the same agent, so comparing versions requires several runs.
+The only error in the final version was the "DiR Av. Madrid" trap, which the agent once mistook for a location in Madrid.
 
-### A complete improvement cycle
-The dataset itself revealed a flaw in the rules: a language school in Barcelona was classified as "contact" for a Madrid agency. It was fixed as follows:
+Each lead takes between 5 and 20 seconds, depending on how many pages the agent needs to visit.
+
+Something I learned by measuring: most of the tokens are **input** tokens, because the whole conversation is resent on every turn of the agent loop. Results also vary between runs of the same agent (the model does not always answer the same way and websites sometimes fail to respond), so I use several runs to report a figure and compare versions.
+
+### Improvement cycles
+
+**1. A business rule.** The first dataset revealed that a language school in Barcelona was classified as "contact" for a Madrid agency. It was fixed as follows:
 1. **Test** describing the desired behaviour (fails).
 2. **Code:** a guard clause in the scoring function (tests pass).
 3. **Dataset** updated with the new correct answer.
 4. **Evaluation** of the new version, compared with the previous one in LangSmith, checking that only the expected results changed.
+
+**2. From 90% to 99%.** After expanding the dataset with real, hard leads, I went through every failure in the LangSmith traces and separated the agent's errors from errors in the labels themselves:
+
+| Observed failure | Cause | Fix |
+|---|---|---|
+| Missed addresses on long pages | The tool cut the text at 4,000 characters | Read the beginning and the end of the page, where the footer with the address usually is |
+| Placed a business in Madrid although its website names no city | The model was guessing the city | If the website does not name it, write "not found" |
+| Counted 1 location for a chain of 21 restaurants | It only counted full addresses | Also count the locations the website lists by name |
+| Gyms classified as healthcare | The `sector` field had no criteria | Define what belongs in each sector |
+| Unreadable accents ("Ã¡") | Websites that do not declare their encoding | Detect the encoding |
+| A website did not load during the evaluation | Temporary website failure | Retry once |
+
+The evaluation also helped **clean up the dataset**: I corrected some labels and removed two leads whose number of locations was ambiguous even for a person (in one of them the agent had read the website better than I had).
 
 ---
 
@@ -132,7 +157,7 @@ Python 3.13 · LangChain · LangGraph · OpenAI (GPT-4.1 mini) · Pydantic · La
 ├── auditoria/                  ← acquisition audit agent (in progress)
 ├── compartido/
 │   └── herramientas.py         ← web reading tool, shared by the agents
-├── tests/                      ← tests for the rules
+├── tests/                      ← tests for the rules and dataset consistency
 └── ejemplos/                   ← learning scripts and a create_agent version (for comparison)
 ```
 
@@ -154,9 +179,10 @@ Copy `.env.example` to `.env` and fill in your keys.
 
 | I want to... | Command |
 |---|---|
-| Qualify an example lead | `poetry run python agente_grafo.py` |
+| Qualify an example lead | `poetry run python -m leads.agente_grafo` |
 | Run the tests | `poetry run pytest` |
-| Run the evaluation (requires LangSmith) | `poetry run python -m evaluaciones.evaluar_agente` |
+| Upload the dataset to LangSmith | `poetry run python -m leads.evaluaciones.crear_dataset` |
+| Run the evaluation (requires LangSmith) | `poetry run python -m leads.evaluaciones.evaluar_agente experiment-name` |
 
 ---
 
@@ -164,7 +190,8 @@ Copy `.env.example` to `.env` and fill in your keys.
 
 - Reduce cost by removing the repeated text (menus and links) resent on every turn, and measure the savings with the dataset.
 - Have `investigar` return its summary as structured data instead of labelled text.
-- Grow the evaluation dataset with every real case where the agent fails.
+- Tell streets and venues named after a city ("DiR Av. Madrid") apart from real cities, the only remaining error.
+- Keep growing the evaluation dataset with every real case where the agent fails.
 - Next modules of the platform: acquisition audit, metrics and retention.
 
 ---
