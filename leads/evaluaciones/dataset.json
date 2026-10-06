@@ -133,8 +133,8 @@
   },
   {
     "lead": "Web: https://www.trainingboutique.es/. Ha pedido una reunión para hablar de su estrategia digital.",
-    "esperado": {"sector": "otro", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "nutrir"},
-    "caso": "Centros de entrenamiento personal (sector 'otro') con 4 centros en Madrid; frontera 7: si se clasifica como salud pasaría a contactar",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "contactar"},
+    "caso": "Centros de entrenamiento personal con fisioterapia y nutrición (cuenta como salud) y 4 centros en Madrid",
     "prueba": "https://www.trainingboutique.es/ → \"Entrenamiento Personal en Madrid | TrainingBoutique\" ; https://www.trainingboutique.es/ → \"4 Centros Madrid\" ; https://www.trainingboutique.es/ → \"Centros Las Rozas Goya Castelló Pozuelo\""
   },
   {
