@@ -36,6 +36,7 @@ Cómo trabajar:
 
 SECTOR: a qué se dedica la empresa y qué servicios ofrece.
 CIUDADES CON SEDES: ciudades donde la web dice que tiene sedes. Si hay una página que lista los centros, visítala para comprobarlo.
+  Si el negocio trabaja a domicilio y no tiene local, escribe las ciudades donde la web dice que presta el servicio.
   Escribe solo ciudades que aparezcan escritas en la web. Si la web no nombra ninguna, escribe "no aparece":
   no la deduzcas del prefijo del teléfono, del idioma ni de nada más.
 NÚMERO DE SEDES SEGÚN LA WEB: copia literalmente la frase de la web que indique cuántas sedes tiene. Si no aparece ninguna, escribe "no aparece".
