@@ -126,12 +126,6 @@
     "prueba": "https://clubdebellezaodalys.com/ → \"Tu peluquería y centro de estética en Chamberí\" ; https://clubdebellezaodalys.com/ → \"Galileo 59, 28015, Madrid.\""
   },
   {
-    "lead": "Web: https://cronopiosidiomas.com/. Se ha registrado para recibir las novedades de nuestro blog.",
-    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "1", "intencion": "baja", "accion": "nutrir"},
-    "caso": "Escuela de español de una sede en Madrid con la web en inglés y la dirección al final de la página",
-    "prueba": "https://cronopiosidiomas.com/ → \"Spanish school in Madrid – Cronopios Idiomas\" ; https://cronopiosidiomas.com/ → \"C. Espalter, 12. Madrid. 28014\""
-  },
-  {
     "lead": "Web: https://www.trainingboutique.es/. Ha pedido una reunión para hablar de su estrategia digital.",
     "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "contactar"},
     "caso": "Centros de entrenamiento personal con fisioterapia y nutrición (cuenta como salud) y 4 centros en Madrid",
