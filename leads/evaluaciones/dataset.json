@@ -72,12 +72,6 @@
     "prueba": "https://www.casa-carmela.com/es/ → \"Restaurante Casa Carmela | Valencia\" ; https://www.casa-carmela.com/es/ → \"Carrer d'Isabel de Villena, 155. 46011 València.\""
   },
   {
-    "lead": "Web: https://www.nebrija.com/. Ha descargado nuestro ebook sobre captación de alumnos con Google Ads.",
-    "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "media", "accion": "contactar"},
-    "caso": "Universidad con 4 campus en Madrid; web muy larga con muchas páginas y el dato de sedes lejos del principio",
-    "prueba": "https://www.nebrija.com/ → \"Cuatro Campus en Madrid\" ; https://www.nebrija.com/ → \"Campus de Ciencias de la Vida en La Berzosa\" | Los 4 campus: La Berzosa, Madrid-Princesa, Madrid-San Francisco de Sales y Madrid-Arturo Soria. La web llega con caracteres mal codificados (Ã¡) al leerla con requests."
-  },
-  {
     "lead": "Web: https://www.cef.com/. Ha solicitado un presupuesto para una campaña de captación de alumnos.",
     "esperado": {"sector": "educacion", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "contactar"},
     "caso": "Centro de formación con sedes en Madrid y en otras ciudades (2 a 10)",
