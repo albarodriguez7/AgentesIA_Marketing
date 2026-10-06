@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 
-from auditoria.comprobaciones import comprobar_conversion, usa_https
-
+from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales
 
 def crear_pagina(contenido: str) -> BeautifulSoup:
     return BeautifulSoup(f"<html><body>{contenido}</body></html>", "html.parser")
@@ -43,3 +42,24 @@ def test_web_con_https_es_segura():
 
 def test_web_con_http_no_es_segura():
     assert usa_https("http://clinicaceodent.es/") is False
+
+
+
+def test_detecta_aviso_legal():
+    pagina = crear_pagina('<a href="/aviso-legal">Aviso Legal</a>')
+    assert tiene_textos_legales(pagina) is True
+
+
+def test_detecta_politica_de_privacidad():
+    pagina = crear_pagina('<a href="/privacidad">Política de privacidad</a>')
+    assert tiene_textos_legales(pagina) is True
+
+
+def test_sin_textos_legales():
+    pagina = crear_pagina('<a href="/">Inicio</a><a href="/contacto">Contacto</a>')
+    assert tiene_textos_legales(pagina) is False
+
+
+def test_texto_legal_fuera_de_un_enlace_no_cuenta():
+    pagina = crear_pagina("<p>Consulta nuestro aviso legal</p>")
+    assert tiene_textos_legales(pagina) is False

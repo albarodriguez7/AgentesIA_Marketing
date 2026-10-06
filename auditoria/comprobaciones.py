@@ -16,6 +16,19 @@ def usa_https(url: str) -> bool:
     return url.startswith("https://")   # Comprobar que empieza por https
 
 
+
+PALABRAS_LEGALES = ["aviso legal", "privacidad"]
+
+
+def tiene_textos_legales(soup: BeautifulSoup) -> bool:
+    for enlace in soup.find_all("a", href=True):
+        texto = enlace.get_text().lower()
+        if any(palabra in texto for palabra in PALABRAS_LEGALES):
+            return True
+    return False
+
+
+
 PATRONES_WHATSAPP = ["wa.me", "wa.link", "whatsapp.com", "whatsapp://"]
 
 
