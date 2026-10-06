@@ -1,0 +1,38 @@
+[
+  {
+    "lead": "Web: https://clinicaceodent.es/. Ha pedido una auditoría gratuita.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "1", "intencion": "alta", "accion": "contactar"},
+    "caso": "Una sede en Madrid con intención alta",
+    "prueba": ""
+  },
+  {
+    "lead": "Web: https://www.fitnesspark.es/. Se ha suscrito a nuestra newsletter.",
+    "esperado": {"sector": "otro", "en_madrid": true, "tramo_sedes": "mas de 10", "intencion": "baja", "accion": "descartar"},
+    "caso": "Cadena enorme (más de 380 gimnasios)",
+    "prueba": ""
+  },
+  {
+    "lead": "Web: https://www.grupodentalcibeles.es/. Ha descargado nuestra guía de SEO local.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "2 a 10", "intencion": "media", "accion": "contactar"},
+    "caso": "Cadena pequeña en Madrid",
+    "prueba": ""
+  },
+  {
+    "lead": "Web: https://www.bcnlanguages.com/. Ha pedido una auditoría gratuita.",
+    "esperado": {"sector": "educacion", "en_madrid": false, "tramo_sedes": "2 a 10", "intencion": "alta", "accion": "descartar"},
+    "caso": "Fuera de Madrid aunque la intención sea alta",
+    "prueba": ""
+  },
+  {
+    "lead": "Web: https://www.pizzavk.com/. Ha descargado nuestra guía de SEO local.",
+    "esperado": {"sector": "hosteleria", "en_madrid": true, "tramo_sedes": "1", "intencion": "media", "accion": "nutrir"},
+    "caso": "Hostelería con una sede",
+    "prueba": ""
+  },
+  {
+    "lead": "Web: https://fisioterapiadomiciliomanuel.com/. Se ha suscrito a nuestra newsletter.",
+    "esperado": {"sector": "salud", "en_madrid": true, "tramo_sedes": "1", "intencion": "baja", "accion": "nutrir"},
+    "caso": "Negocio a domicilio, sin local",
+    "prueba": ""
+  }
+]
