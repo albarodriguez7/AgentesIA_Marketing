@@ -153,5 +153,15 @@ if __name__ == "__main__":
     if soup is None:
         print("No se pudo descargar la web")
     else:
-        impresion = extraer_primera_impresion(soup)  # se convierte en un diccionario
-        print(valorar_primera_impresion(impresion))
+        impresion = extraer_primera_impresion(soup)
+        texto = formatear_impresion(impresion)
+        valoracion = valorar_primera_impresion(impresion)
+
+        for nombre, criterio in valoracion:
+            print(f"{nombre}: {criterio.cumple} → {criterio.prueba}")
+
+        sin_prueba = criterios_sin_prueba_valida(valoracion, texto)
+        if sin_prueba:
+            print("⚠️ Pruebas que no aparecen en la web:", sin_prueba)
+        else:
+            print("✅ Todas las pruebas aparecen en la web")
