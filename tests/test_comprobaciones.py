@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales, tiene_opiniones
+from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales, tiene_opiniones, comprobar_confianza
 
 def crear_pagina(contenido: str) -> BeautifulSoup:
     return BeautifulSoup(f"<html><body>{contenido}</body></html>", "html.parser")
@@ -89,3 +89,15 @@ def test_sin_opiniones():
 def test_testimonios_no_cuenta_como_texto_legal():
     pagina = crear_pagina('<a href="/testimonios/">Testimonios</a>')
     assert tiene_textos_legales(pagina) is False
+
+
+def test_confianza_con_todo():
+    pagina = crear_pagina('<a href="/aviso-legal">Aviso legal</a><a href="/testimonios/">Testimonios</a>')
+    resultado = comprobar_confianza("https://clinica.es/", pagina)
+    assert resultado == {"https": True, "textos_legales": True, "opiniones": True}
+
+
+def test_confianza_sin_nada():
+    pagina = crear_pagina('<a href="/">Inicio</a>')
+    resultado = comprobar_confianza("http://clinica.es/", pagina)
+    assert resultado == {"https": False, "textos_legales": False, "opiniones": False}

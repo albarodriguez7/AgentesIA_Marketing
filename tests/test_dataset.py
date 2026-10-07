@@ -1,11 +1,3 @@
-"""
-Comprueba que dataset.json es coherente antes de subirlo a LangSmith.
-
-Si una respuesta correcta está mal apuntada a mano, el agente "fallaría" en la
-evaluación sin tener la culpa. Estos tests recalculan la acción con las reglas
-de negocio a partir del resto de campos y avisan si no coincide.
-"""
-
 import json
 from pathlib import Path
 

@@ -38,6 +38,15 @@ def tiene_opiniones(soup: BeautifulSoup) -> bool:
 
 
 
+def comprobar_confianza(url: str, soup: BeautifulSoup) -> dict:
+    return {
+        "https": usa_https(url),
+        "textos_legales": tiene_textos_legales(soup),
+        "opiniones": tiene_opiniones(soup),
+    }
+
+
+
 PATRONES_WHATSAPP = ["wa.me", "wa.link", "whatsapp.com", "whatsapp://"]
 
 
@@ -62,14 +71,13 @@ def comprobar_conversion(soup: BeautifulSoup) -> dict:
 
 
 if __name__ == "__main__":
-    soup = descargar_html("https://clinicaceodent.es/")
+    url = "https://clinicaceodent.es/"
+    soup = descargar_html(url)
     if soup is None:
         print("No se pudo descargar la web")
     else:
-        print(comprobar_conversion(soup))
-        print("¿Textos legales?", tiene_textos_legales(soup))
-        print("¿Opiniones?", tiene_opiniones(soup))
-        html = str(soup).lower() 
+        print("Conversión:", comprobar_conversion(soup))
+        print("Confianza:", comprobar_confianza(url, soup))
         # debugging:
         # print("Veces que aparece 'whatsapp' en el HTML:", html.count("whatsapp"))
         # for a in soup.find_all("a", href=True):
