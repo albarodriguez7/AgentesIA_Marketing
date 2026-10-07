@@ -20,13 +20,21 @@ class Criterio(BaseModel):
     prueba: str = Field(
         description=(
             "La frase más corta posible (una sola oración o parte de ella) copiada literalmente "
-            "del texto de la web que lo demuestra. Texto vacío si cumple es 'no'."
+            "del texto de la web que demuestra ESTE criterio concreto. No uses una frase que hable "
+            "de otra cosa. Texto vacío si cumple es 'no'."
         )
     )
 
 # modelo anidado (usa un formulario dentro de otro formulario):
 class ValoracionPrimeraImpresion(BaseModel):
-    que_ofrecen: Criterio = Field(description="¿Queda claro qué servicios o productos ofrece el negocio?")
+    que_ofrecen: Criterio = Field(
+        description=(
+            "¿Queda claro qué ofrece el negocio? Es 'si' si nombra sus servicios o productos "
+            "principales (por ejemplo: 'implantes y ortodoncia', 'pizzas a domicilio', 'cortes y mechas'). "
+            "Es 'parcialmente' si solo dice el tipo de negocio ('pizzería', 'peluquería'). "
+            "Es 'no' si no se sabe a qué se dedica."
+        )
+    )
     para_quien: Criterio = Field(
         description=(
             "¿Queda claro a qué tipo de clientes se dirige? Es 'si' si nombra algún tipo de cliente, "
@@ -34,7 +42,13 @@ class ValoracionPrimeraImpresion(BaseModel):
             "Es 'parcialmente' si solo se deduce de forma indirecta, y 'no' si no hay ninguna pista."
         )
     )
-    donde: Criterio = Field(description="¿Queda claro en qué zona o ciudad trabaja?")
+    donde: Criterio = Field(
+        description=(
+            "¿Queda claro dónde está? Es 'si' si da la dirección o el barrio junto con la ciudad "
+            "(por ejemplo: 'Hortaleza, Madrid'). Es 'parcialmente' si solo da el barrio o solo la ciudad. "
+            "Es 'no' si no aparece ninguna ubicación."
+        )
+    )
     propuesta_de_valor: Criterio = Field(description="¿Explica por qué elegirlo a él y no a otro? Solo es 'si' si dice algo concreto y "
             "diferenciador: una especialidad poco común, un horario, una garantía, un precio o un "
             "dato comprobable. Las frases genéricas que podría decir cualquier negocio ('calidad', "
@@ -147,12 +161,22 @@ def valorar_primera_impresion(impresion: dict) -> ValoracionPrimeraImpresion:   
 
 
 
+WEBS_DE_PRUEBA = [
+    "https://clinicaceodent.es/",
+    "https://www.pizzavk.com/",
+    "https://www.viena.es/es/",
+    "https://clubdebellezaodalys.com/",
+]
+
 if __name__ == "__main__":
     load_dotenv()
-    soup = descargar_html("https://clinicaceodent.es/")
-    if soup is None:
-        print("No se pudo descargar la web")
-    else:
+    for url in WEBS_DE_PRUEBA:
+        print(f"\n=== {url} ===")
+        soup = descargar_html(url)
+        if soup is None:
+            print("No se pudo descargar la web")
+            continue
+
         impresion = extraer_primera_impresion(soup)
         texto = formatear_impresion(impresion)
         valoracion = valorar_primera_impresion(impresion)
