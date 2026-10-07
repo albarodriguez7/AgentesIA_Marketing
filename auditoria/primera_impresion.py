@@ -42,6 +42,34 @@ class ValoracionPrimeraImpresion(BaseModel):
 
 
 
+
+def normalizar(texto: str) -> str:
+    return " ".join(texto.lower().split())
+
+
+def prueba_es_valida(criterio: Criterio, texto: str) -> bool:
+    if criterio.cumple == "no":
+        return True
+    if criterio.prueba == "":
+        return False
+    return normalizar(criterio.prueba) in normalizar(texto)
+    # Es como poner: 
+    # if normalizar(criterio.prueba) in normalizar(texto):
+    #     return True
+    # else:
+    #     return False
+
+
+def criterios_sin_prueba_valida(valoracion: ValoracionPrimeraImpresion, texto: str) -> list:
+    sin_prueba = []
+    for nombre, criterio in valoracion:
+        if not prueba_es_valida(criterio, texto):
+            sin_prueba.append(nombre)
+    return sin_prueba
+
+
+
+
 MAX_H1 = 3
 MAX_SUBTITULOS = 5
 MAX_PARRAFOS = 3
