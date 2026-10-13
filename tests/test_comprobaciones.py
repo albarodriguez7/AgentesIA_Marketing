@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales, tiene_opiniones, comprobar_confianza
+from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales, tiene_opiniones, comprobar_confianza, crear_soup
 
 def crear_pagina(contenido: str) -> BeautifulSoup:
     return BeautifulSoup(f"<html><body>{contenido}</body></html>", "html.parser")
@@ -101,3 +101,11 @@ def test_confianza_sin_nada():
     pagina = crear_pagina('<a href="/">Inicio</a>')
     resultado = comprobar_confianza("http://clinica.es/", pagina)
     assert resultado == {"https": False, "textos_legales": False, "opiniones": False}
+
+
+
+def test_respeta_la_codificacion_de_la_web():
+    html = '<html><head><meta charset="utf-8"></head><body><p>Inglés para niños y reseñas</p></body></html>'
+    contenido = html.encode("utf-8")
+    soup = crear_soup(contenido)
+    assert soup.find("p").get_text() == "Inglés para niños y reseñas"

@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 
+def crear_soup(contenido: bytes) -> BeautifulSoup:
+    return BeautifulSoup(contenido, "html.parser")
+
 
 def descargar_html(url: str) -> BeautifulSoup | None:
     try:
@@ -9,7 +12,7 @@ def descargar_html(url: str) -> BeautifulSoup | None:
         respuesta.raise_for_status()
     except requests.RequestException:
         return None
-    return BeautifulSoup(respuesta.text, "html.parser")
+    return crear_soup(respuesta.content)
 
 
 def usa_https(url: str) -> bool:
@@ -65,6 +68,7 @@ def comprobar_conversion(soup: BeautifulSoup) -> dict:
         "email_clicable": any(d.startswith("mailto:") for d in direcciones),
         "formulario": len(soup.find_all("form")) > 0,
     }
+
 
 
 

@@ -162,6 +162,7 @@ def valorar_primera_impresion(impresion: dict) -> ValoracionPrimeraImpresion:   
 
 
 WEBS_DE_PRUEBA = [
+    "https://www.kidsandus.es/es",
     "https://clinicaceodent.es/",
     "https://www.pizzavk.com/",
     "https://www.viena.es/es/",

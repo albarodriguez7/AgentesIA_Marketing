@@ -42,9 +42,12 @@ Otra IA ha valorado la primera impresión de una web y, para cada criterio, ha d
 
 Tu trabajo NO es repetir la valoración. Solo tienes que decidir, para cada criterio, si la prueba es PERTINENTE: si de verdad habla de lo que pregunta ese criterio.
 
-Ejemplo de prueba NO pertinente: para "¿Queda claro dónde está?", la frase "Enviamos a toda España" habla de envíos, no de dónde está el negocio.
+Reglas:
+- La prueba tiene que hablar del PROPIO NEGOCIO y de lo que ofrece a SUS CLIENTES. Las frases sobre colaboraciones, causas solidarias, patrocinios, noticias o terceras personas que no son sus clientes NO son pertinentes.
+- Una valoración "parcialmente" NO rebaja el listón: la prueba puede dar una respuesta incompleta, pero tiene que tratar del criterio. Si habla de otra cosa, no es pertinente.
+- Si un criterio tiene la valoración "no", su prueba está vacía a propósito: márcala como pertinente.
 
-Si un criterio tiene la valoración "no", su prueba está vacía a propósito: márcala como pertinente."""
+Ejemplo de prueba NO pertinente: para "¿Queda claro dónde está?", la frase "Enviamos a toda España" habla de envíos, no de dónde está el negocio."""
 
 
 
