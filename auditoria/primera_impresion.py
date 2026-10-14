@@ -36,10 +36,14 @@ class ValoracionPrimeraImpresion(BaseModel):
         )
     )
     para_quien: Criterio = Field(
-        description=(
-            "¿Queda claro a qué tipo de clientes se dirige? Es 'si' si nombra algún tipo de cliente, "
-            "aunque sea amplio (por ejemplo: 'niños y adultos', 'familias', 'empresas', 'deportistas'). "
-            "Es 'parcialmente' si solo se deduce de forma indirecta, y 'no' si no hay ninguna pista."
+    description=(
+        "¿Queda claro a qué tipo de clientes se dirige? Es 'si' si nombra algún tipo de cliente, "
+        "aunque sea amplio (por ejemplo: 'niños y adultos', 'familias', 'empresas', 'deportistas'). "
+        "Es 'parcialmente' si describe la situación o necesidad de sus clientes sin nombrar un tipo "
+        "(por ejemplo: 'si vuelves a entrenar después de una lesión'). "
+        "Es 'no' si ninguna frase habla de sus clientes. Las frases genéricas que valen para cualquier "
+        "negocio ('para ti', 'tu mejor versión') y las frases sobre servicios, ubicación, filosofía "
+        "o causas solidarias NO cuentan: en ese caso es 'no'."
         )
     )
     donde: Criterio = Field(
@@ -129,7 +133,9 @@ Reglas:
 - Valora solo con lo que aparece en ese texto. No uses lo que sepas del negocio por otras fuentes.
 - En "prueba" copia una frase literal del texto, sin cambiarla. Si no hay ninguna, déjalo vacío.
 - Si algo solo se insinúa, responde "parcialmente": no lo des por claro.
-- Si no aparece, responde "no"."""
+- Si no aparece, responde "no".
+- Si ninguna frase responde de verdad a un criterio, responde "no". Es mejor un "no" honesto que un "parcialmente" con una prueba que habla de otra cosa.
+"""
 
 
 def formatear_impresion(impresion: dict) -> str:
@@ -162,11 +168,11 @@ def valorar_primera_impresion(impresion: dict) -> ValoracionPrimeraImpresion:   
 
 
 WEBS_DE_PRUEBA = [
-    "https://www.kidsandus.es/es",
-    "https://clinicaceodent.es/",
-    "https://www.pizzavk.com/",
+    "https://www.trainingboutique.es/",
     "https://www.viena.es/es/",
-    "https://clubdebellezaodalys.com/",
+    "https://www.labola.es/es",
+    "https://clinicaceodent.es/",
+    "https://www.kidsandus.es/es",
 ]
 
 if __name__ == "__main__":
