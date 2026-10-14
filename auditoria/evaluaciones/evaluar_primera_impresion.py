@@ -46,6 +46,7 @@ Reglas:
 - La prueba tiene que hablar del PROPIO NEGOCIO y de lo que ofrece a SUS CLIENTES. Las frases sobre colaboraciones, causas solidarias, patrocinios, noticias o terceras personas que no son sus clientes NO son pertinentes.
 - Una valoración "parcialmente" NO rebaja el listón: la prueba puede dar una respuesta incompleta, pero tiene que tratar del criterio. Si habla de otra cosa, no es pertinente.
 - Si un criterio tiene la valoración "no", su prueba está vacía a propósito: márcala como pertinente.
+- Recibirás primero el texto de la web. Úsalo para ver el contexto de cada prueba: una frase recortada puede parecer pertinente y no serlo al leerla entera.
 
 Ejemplo de prueba NO pertinente: para "¿Queda claro dónde está?", la frase "Enviamos a toda España" habla de envíos, no de dónde está el negocio."""
 
@@ -86,10 +87,10 @@ def pruebas_en_la_web(outputs: dict) -> dict:
 
 
 
-def formatear_para_juez(valoracion: dict) -> str:
-    bloques = []
+def formatear_para_juez(valoracion: dict, texto: str) -> str:
+    bloques = [f"TEXTO DE LA WEB:\n{texto}"]
     for nombre, criterio in valoracion.items():
-        pregunta = ValoracionPrimeraImpresion.model_fields[nombre].description   # le pregunta al formulario del especialista (ValoracionPrimeraImpresion) qué instrucciones le dimos para ese criterio
+        pregunta = ValoracionPrimeraImpresion.model_fields[nombre].description
         bloques.append(
             f"CRITERIO: {nombre}\n"
             f"PREGUNTA: {pregunta}\n"
@@ -107,7 +108,7 @@ def pruebas_pertinentes(outputs: dict) -> dict:
     juez = modelo.with_structured_output(JuicioPrimeraImpresion)
     juicio = juez.invoke([
         SystemMessage(INSTRUCCIONES_JUEZ),
-        HumanMessage(formatear_para_juez(outputs["valoracion"])),
+        HumanMessage(formatear_para_juez(outputs["valoracion"], outputs["texto"])),
     ])
 
     fallos = []

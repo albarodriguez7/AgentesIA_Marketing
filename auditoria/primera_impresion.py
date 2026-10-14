@@ -42,7 +42,8 @@ class ValoracionPrimeraImpresion(BaseModel):
         "Es 'parcialmente' si describe la situación o necesidad de sus clientes sin nombrar un tipo "
         "(por ejemplo: 'si vuelves a entrenar después de una lesión'). "
         "Es 'no' si ninguna frase habla de sus clientes. Las frases genéricas que valen para cualquier "
-        "negocio ('para ti', 'tu mejor versión') y las frases sobre servicios, ubicación, filosofía "
+        "negocio ('para ti', 'tu mejor versión'), las que dicen que es para todo el mundo "
+        "('para todos', 'for everyone') y las frases sobre servicios, ubicación, filosofía "
         "o causas solidarias NO cuentan: en ese caso es 'no'."
         )
     )
