@@ -15,6 +15,8 @@ from auditoria.primera_impresion import (
     valorar_primera_impresion,
 )
 
+from auditoria.informe import formatear_resultados
+
 
 class EstadoAuditoria(TypedDict):
     url: str
@@ -77,7 +79,7 @@ constructor.add_edge(START, "descargar")
 constructor.add_conditional_edges("descargar", decidir_tras_descarga, ESPECIALISTAS + [END])  
 for especialista in ESPECIALISTAS:
     constructor.add_edge(especialista, END)
-    
+
 # Es como escribir esto:
 # constructor.add_edge("especialista_conversion", END)
 # constructor.add_edge("especialista_confianza", END)
@@ -97,7 +99,4 @@ if __name__ == "__main__":
     if resultado["html"] is None:
         print("No se pudo descargar la web")
     else:
-        print("Conversión:", resultado["conversion"])
-        print("Confianza:", resultado["confianza"])
-        for nombre, criterio in resultado["primera_impresion"]:
-            print(f"{nombre}: {criterio.cumple} → {criterio.prueba}")
+        print(formatear_resultados(resultado))
