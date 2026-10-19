@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 
-def crear_soup(contenido: bytes) -> BeautifulSoup:
+def crear_soup(contenido: bytes | str) -> BeautifulSoup:
     return BeautifulSoup(contenido, "html.parser")
 
 
