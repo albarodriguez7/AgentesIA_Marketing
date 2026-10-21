@@ -15,7 +15,7 @@ from auditoria.primera_impresion import (
     valorar_primera_impresion,
 )
 
-from auditoria.informe import formatear_resultados
+from auditoria.informe import formatear_resultados, redactar_informe
 
 
 class EstadoAuditoria(TypedDict):
@@ -91,7 +91,6 @@ agente = constructor.compile()
 
 
 
-
 if __name__ == "__main__":
     load_dotenv()
     resultado = agente.invoke({"url": "https://clinicaceodent.es/"})
@@ -100,3 +99,5 @@ if __name__ == "__main__":
         print("No se pudo descargar la web")
     else:
         print(formatear_resultados(resultado))
+        print("\n========== INFORME ==========\n")
+        print(redactar_informe(resultado))

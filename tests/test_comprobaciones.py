@@ -1,3 +1,4 @@
+import pytest
 from bs4 import BeautifulSoup
 
 from auditoria.comprobaciones import comprobar_conversion, usa_https, tiene_textos_legales, tiene_opiniones, comprobar_confianza, crear_soup
@@ -63,6 +64,28 @@ def test_sin_textos_legales():
 def test_texto_legal_fuera_de_un_enlace_no_cuenta():
     pagina = crear_pagina("<p>Consulta nuestro aviso legal</p>")
     assert tiene_textos_legales(pagina) is False
+
+
+
+@pytest.mark.parametrize("texto", [
+    "Textos Legales",
+    "Datos Personales",
+    "Política de cookies",
+    "Ver el tratamiento de mis datos",
+    "Condiciones generales de uso",
+    "Información legal",
+    "Privacy policy",
+])
+def test_detecta_textos_legales_con_otros_nombres(texto):
+    pagina = crear_pagina(f'<a href="/legal">{texto}</a>')
+    assert tiene_textos_legales(pagina) is True
+
+
+def test_tratamientos_dentales_no_cuenta_como_texto_legal():
+    pagina = crear_pagina('<a href="/tratamientos">Tratamientos dentales</a>')
+    assert tiene_textos_legales(pagina) is False
+
+
 
 
 

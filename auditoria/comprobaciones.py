@@ -20,7 +20,15 @@ def usa_https(url: str) -> bool:
 
 
 
-PALABRAS_LEGALES = ["aviso legal", "privacidad"]
+PALABRAS_LEGALES = [
+    "legal",               # aviso legal, textos legales, información legal, legal notice
+    "privacidad",          # política de privacidad
+    "privacy",             # privacy policy (webs en inglés)
+    "cookies",             # política de cookies
+    "datos personales",    # protección / tratamiento de datos personales
+    "mis datos",           # ver el tratamiento de mis datos
+    "condiciones generales",
+]
 PALABRAS_OPINIONES = ["opiniones", "testimonios", "reseñas", "valoraciones", "experiencias"]
 
 
