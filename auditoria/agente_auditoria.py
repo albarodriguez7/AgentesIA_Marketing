@@ -53,8 +53,6 @@ def especialista_primera_impresion(estado: EstadoAuditoria) -> dict:
     return {"primera_impresion": valorar_primera_impresion(impresion)}
 
 
-def redactar(estado):
-    return {"informe": redactar_informe(estado)}
 
 
 
@@ -76,12 +74,11 @@ constructor.add_node("descargar", descargar)
 constructor.add_node("especialista_conversion", especialista_conversion)
 constructor.add_node("especialista_confianza", especialista_confianza)
 constructor.add_node("especialista_primera_impresion", especialista_primera_impresion)
-constructor.add_node("redactar", redactar)
 
 constructor.add_edge(START, "descargar")
 constructor.add_conditional_edges("descargar", decidir_tras_descarga, ESPECIALISTAS + [END])  
-constructor.add_edge(ESPECIALISTAS, "redactar")
-constructor.add_edge("redactar", END)
+for especialista in ESPECIALISTAS:
+    constructor.add_edge(especialista, END)
 
 # Es como escribir esto:
 # constructor.add_edge("especialista_conversion", END)
@@ -96,11 +93,11 @@ agente = constructor.compile()
 
 if __name__ == "__main__":
     load_dotenv()
-    resultado = agente.invoke({"url": "https://fisioterapiadomiciliomanuel.com/"})
+    resultado = agente.invoke({"url": "https://clinicaceodent.es/"})
 
     if resultado["html"] is None:
         print("No se pudo descargar la web")
     else:
         print(formatear_resultados(resultado))
         print("\n========== INFORME ==========\n")
-        print(resultado["informe"])
+        print(redactar_informe(resultado))
