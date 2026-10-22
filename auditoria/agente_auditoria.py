@@ -96,7 +96,7 @@ agente = constructor.compile()
 
 if __name__ == "__main__":
     load_dotenv()
-    resultado = agente.invoke({"url": "https://fisioterapiadomiciliomanuel.com/"})
+    resultado = agente.invoke({"url": "https://clinicaceodent.es/"})
 
     if resultado["html"] is None:
         print("No se pudo descargar la web")
