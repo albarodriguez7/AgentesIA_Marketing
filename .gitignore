@@ -4,3 +4,4 @@ __pycache__/
 .vscode/
 .pytest_cache/
 practica/
+rag/chroma_db/

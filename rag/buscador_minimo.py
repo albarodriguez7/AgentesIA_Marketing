@@ -58,7 +58,7 @@ if __name__ == "__main__":
     ]
 
     for pregunta in preguntas:
-        print(f"\n❓ {pregunta}")
+        print(f"\n{pregunta}")
         resultados = buscar(pregunta, indice)
         if len(resultados) == 0:
             print("   (no he encontrado nada relevante)")
