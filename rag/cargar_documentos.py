@@ -24,7 +24,7 @@ def cargar_documentos() -> list[Document]:
     return documentos
 
 
-def trocear_documentos(documentos: list[Document], tamaño: int = 1000, solape: int = 50) -> list[Document]:
+def trocear_documentos(documentos, tamaño=500, solape=50):
     troceador = RecursiveCharacterTextSplitter(chunk_size=tamaño, chunk_overlap=solape)   # Solape: cada trozo repite los últimos 50 caracteres del anterior.
     return troceador.split_documents(documentos)  # trocea todos los documentos y le pone a cada trozo los metadatos de su documento
 

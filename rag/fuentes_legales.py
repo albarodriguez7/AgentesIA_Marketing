@@ -2,6 +2,9 @@ from dotenv import load_dotenv
 
 from rag.buscar_legal import buscar
 
+
+TROZOS_POR_CONSULTA = 2  # con trozos de 500, 2 trozos ≈ el texto de antes
+
 CONSULTAS_TEXTOS_LEGALES = [
     {
         "consulta": "Información que el prestador de servicios debe facilitar: nombre o denominación social, domicilio, dirección de correo electrónico y número de identificación fiscal",
@@ -21,7 +24,7 @@ CONSULTAS_TEXTOS_LEGALES = [
 def buscar_fuentes_legales(consultas: list) -> list[dict]:
     fuentes = []
     for consulta in consultas:
-        resultados = buscar(consulta["consulta"], k=1, filtro=consulta["filtro"])
+        resultados = buscar(consulta["consulta"], k=TROZOS_POR_CONSULTA, filtro=consulta["filtro"])
         for trozo, puntuacion in resultados:
             fuentes.append({
                 "ley": trozo.metadata["ley"],
