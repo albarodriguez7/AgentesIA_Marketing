@@ -15,6 +15,7 @@ def abrir_base() -> Chroma:
         collection_name=COLECCION,
         embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"),
         persist_directory=str(CARPETA_CHROMA),  # La carpeta del disco donde se guarda todo. Convierte el Path en texto porque Chroma lo necesita así
+        collection_metadata={"hnsw:space": "cosine"},  # medir el parecido por coseno
     )
 
 
