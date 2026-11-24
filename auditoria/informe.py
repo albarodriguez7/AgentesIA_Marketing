@@ -86,6 +86,19 @@ def texto_prioridades(estado: dict) -> str:
 
 
 
+def texto_fuentes_legales(fuentes: list) -> str:
+    if len(fuentes) == 0:
+        return "FUENTES LEGALES: ninguna"
+
+    bloques = []
+    for fuente in fuentes:
+        etiqueta = f"[{fuente['ley']}, artículo {fuente['articulo']}]"
+        bloques.append(f"{etiqueta}\n{fuente['texto']}")
+
+    return "FUENTES LEGALES:\n\n" + "\n\n".join(bloques)
+
+
+
 
 def lineas_comprobaciones(comprobaciones: dict) -> list[str]:
     lineas = []
@@ -126,6 +139,7 @@ INSTRUCCIONES_REDACTOR = """Eres un consultor de marketing digital. Escribes al 
 Recibes:
 - Los resultados de la auditoría, por áreas.
 - Una lista de MEJORAS EN ORDEN DE PRIORIDAD, ya decidida.
+- Unas FUENTES LEGALES: textos oficiales de la ley, solo cuando hacen falta.
 
 Escribe el informe con esta estructura:
 
@@ -135,7 +149,11 @@ Escribe el informe con esta estructura:
 
 3. "Lo que mejoraría primero": las mejoras de la lista, EN EL MISMO ORDEN y como máximo las 3 primeras. No cambies el orden ni añadas otras. Si la lista dice "ninguna", escribe que no hay nada urgente que mejorar. Empieza cada mejora con un título corto que diga qué hacer (por ejemplo, "Explica qué servicios ofreces"), no con el nombre de la comprobación. Después, explica en una o dos frases qué pasa y por qué le hace perder clientes.
 
-4. Solo si en la auditoría el aviso legal y la política de privacidad salen como NO: termina con un párrafo aparte que empiece por "Aviso legal:", explicando que la ley obliga a tenerlos en una web de negocio y que no tenerlos puede acarrear sanciones. Hazlo aunque no esté entre las 3 primeras mejoras.
+4. Solo si en la auditoría el aviso legal y la política de privacidad salen como NO: termina con un párrafo aparte que empiece por "Aviso legal:". Hazlo aunque no esté entre las 3 primeras mejoras. Básalo SOLO en las FUENTES LEGALES:
+- Explica qué información exige la ley que aparezca en la web y qué hay que explicar a quien deja sus datos.
+- Cita cada cosa con su ley y artículo entre paréntesis, por ejemplo "(LSSI, art. 10)".
+- Las fuentes recogen las multas, pero no dicen qué tipo de infracción es no tener estos textos. Por eso, no digas qué multa le correspondería: di solo que la ley prevé multas según la gravedad de la infracción, citando el artículo.
+No menciones leyes, artículos ni cantidades que no aparezcan en las FUENTES LEGALES.
 
 Reglas:
 - Usa solo la información de la auditoría. No propongas mejoras sobre cosas que la auditoría no ha revisado (por ejemplo, imágenes, diseño o redes sociales).
@@ -151,7 +169,11 @@ def redactar_informe(estado: dict) -> str:
     modelo = init_chat_model("openai:gpt-4.1-mini", temperature=0.3)
     mensajes = [
         SystemMessage(INSTRUCCIONES_REDACTOR),
-        HumanMessage(formatear_resultados(estado) + "\n\n" + texto_prioridades(estado)),
+        HumanMessage(
+            formatear_resultados(estado)
+            + "\n\n" + texto_prioridades(estado)
+            + "\n\n" + texto_fuentes_legales(estado["fuentes_legales"])
+        ),
     ]
     respuesta = modelo.invoke(mensajes)
     return respuesta.content

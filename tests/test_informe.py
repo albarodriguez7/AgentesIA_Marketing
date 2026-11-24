@@ -1,6 +1,6 @@
 from auditoria.informe import mejoras_ordenadas, texto_prioridades
 from auditoria.primera_impresion import Criterio, ValoracionPrimeraImpresion
-
+from auditoria.informe import mejoras_ordenadas, texto_prioridades, texto_fuentes_legales
 
 def crear_estado(conversion: dict, confianza: dict, impresion: dict) -> dict:
     valoracion = ValoracionPrimeraImpresion(
@@ -80,3 +80,25 @@ def test_texto_prioridades_sin_mejoras():
         impresion=TODO_SI,
     )
     assert texto_prioridades(estado) == "MEJORAS EN ORDEN DE PRIORIDAD: ninguna"
+
+
+
+
+def test_texto_fuentes_legales_sin_fuentes():
+    assert texto_fuentes_legales([]) == "FUENTES LEGALES: ninguna"
+
+
+def test_texto_fuentes_legales_con_fuentes():
+    fuentes = [
+        {"ley": "LSSI", "articulo": "10", "url": "https://boe.es/a", "texto": "Artículo 10. Texto A", "relevancia": 0.6},
+        {"ley": "RGPD", "articulo": "13", "url": "https://boe.es/b", "texto": "Artículo 13. Texto B", "relevancia": 0.7},
+    ]
+    assert texto_fuentes_legales(fuentes) == (
+        "FUENTES LEGALES:\n"
+        "\n"
+        "[LSSI, artículo 10]\n"
+        "Artículo 10. Texto A\n"
+        "\n"
+        "[RGPD, artículo 13]\n"
+        "Artículo 13. Texto B"
+    )

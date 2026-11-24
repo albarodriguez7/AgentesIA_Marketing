@@ -17,6 +17,8 @@ from auditoria.primera_impresion import (
 
 from auditoria.informe import formatear_resultados, redactar_informe
 
+from rag.fuentes_legales import CONSULTAS_TEXTOS_LEGALES, buscar_fuentes_legales
+
 
 class EstadoAuditoria(TypedDict):
     url: str
@@ -25,6 +27,7 @@ class EstadoAuditoria(TypedDict):
     confianza: dict | None
     primera_impresion: ValoracionPrimeraImpresion | None
     informe: str | None
+    fuentes_legales: list | None
 
 
 def descargar(estado: EstadoAuditoria) -> dict:
@@ -53,6 +56,12 @@ def especialista_primera_impresion(estado: EstadoAuditoria) -> dict:
     return {"primera_impresion": valorar_primera_impresion(impresion)}
 
 
+def buscar_ley(estado):
+    if estado["confianza"]["textos_legales"]:
+        return {"fuentes_legales": []}
+    return {"fuentes_legales": buscar_fuentes_legales(CONSULTAS_TEXTOS_LEGALES)}
+
+
 def redactar(estado):
     return {"informe": redactar_informe(estado)}
 
@@ -77,10 +86,12 @@ constructor.add_node("especialista_conversion", especialista_conversion)
 constructor.add_node("especialista_confianza", especialista_confianza)
 constructor.add_node("especialista_primera_impresion", especialista_primera_impresion)
 constructor.add_node("redactar", redactar)
+constructor.add_node("buscar_ley", buscar_ley)
 
 constructor.add_edge(START, "descargar")
 constructor.add_conditional_edges("descargar", decidir_tras_descarga, ESPECIALISTAS + [END])  
-constructor.add_edge(ESPECIALISTAS, "redactar")
+constructor.add_edge(ESPECIALISTAS, "buscar_ley")
+constructor.add_edge("buscar_ley", "redactar")
 constructor.add_edge("redactar", END)
 
 # Es como escribir esto:
@@ -96,7 +107,7 @@ agente = constructor.compile()
 
 if __name__ == "__main__":
     load_dotenv()
-    resultado = agente.invoke({"url": "https://clinicaceodent.es/"})
+    resultado = agente.invoke({"url": "https://fisioterapiadomiciliomanuel.com/"})
 
     if resultado["html"] is None:
         print("No se pudo descargar la web")
